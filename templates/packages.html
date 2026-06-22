@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block title %}Tour Packages - Tour Package Management{% endblock %}
+
+{% block content %}
+    <section style="padding: 4rem 0; background-color: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Tour Packages</h2>
+                <p>Explore our wide range of tour packages designed to create unforgettable travel experiences.</p>
+            </div>
+
+            <!-- Search and Filter Options -->
+            <div class="search-container">
+                <form id="packageSearchForm" method="GET" action="{{ url_for('main.packages') }}">
+                    <div class="search-box">
+                        <input type="text" class="form-control search-input" name="keyword" id="keyword" 
+                               placeholder="Search your dream destination..." 
+                               value="{{ request.args.get('keyword', '') }}">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+
+                    <div class="filters-container">
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-map-marker-alt"></i> Destination
+                            </label>
+                            <select class="form-select custom-select" name="location" id="location">
+                                <option value="">All Destinations</option>
+                                {% for location in packages|map(attribute='location')|unique|sort %}
+                                <option value="{{ location }}" {% if location == request.args.get('location') %}selected{% endif %}>{{ location }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-clock"></i> Duration
+                            </label>
+                            <select class="form-select custom-select" name="duration" id="duration">
+                                <option value="">Any Duration</option>
+                                <option value="1-3">1-3 Days</option>
+                                <option value="4-7">4-7 Days</option>
+                                <option value="8-14">8-14 Days</option>
+                                <option value="15+">15+ Days</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-rupee-sign"></i> Price Range
+                            </label>
+                            <select class="form-select custom-select" name="price" id="price">
+                                <option value="">Any Price</option>
+                                <option value="0-5000">Under ₹5,000</option>
+                                <option value="5000-10000">₹5,000 - ₹10,000</option>
+                                <option value="10000-25000">₹10,000 - ₹25,000</option>
+                                <option value="25000+">Above ₹25,000</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-sort"></i> Sort By
+                            </label>
+                            <select class="form-select custom-select" name="sort" id="sort">
+                                <option value="popularity">Popularity</option>
+                                <option value="price_low">Price: Low to High</option>
+                                <option value="price_high">Price: High to Low</option>
+                                <option value="duration">Duration</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="search-buttons">
+                        <button type="submit" class="btn btn-primary search-btn">
+                            <i class="fas fa-search"></i> Search Packages
+                        </button>
+                        <button type="reset" class="btn btn-outline-secondary reset-btn">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- Packages Grid -->
+            <div class="packages-grid">
+                {% if packages %}
+                    {% for package in packages %}
+                        <div class="card">
+                            {% if package.image_path %}
+                                <div class="card-img" style="background-image: url('{{ url_for('static', filename=package.image_path) if package.image_path.startswith('uploads/') else package.image_path }}'); background-size: cover; background-position: center; height: 250px; width: 100%; border-radius: 8px 8px 0 0;"></div>
+                            {% else %}
+                                <div class="card-img" style="background-image: url('https://source.unsplash.com/1600x900/?{{ package.location|urlencode }}'); background-size: cover; background-position: center; height: 250px; width: 100%; border-radius: 8px 8px 0 0;"></div>
+                            {% endif %}
+
+                            <div class="card-body">
+                                <h3 class="card-title">{{ package.name }}</h3>
+                                <p class="card-text">{{ package.description|truncate(100) }}</p>
+
+                                <div class="card-location">
+                                    <i class="fas fa-map-marker-alt"></i> {{ package.location }}
+                                </div>
+
+                                <div class="card-duration">
+                                    <i class="fas fa-clock"></i> {{ package.duration }} days
+                                </div>
+
+                                <div class="card-price">₹{{ package.price|int }}</div>
+
+                                <a href="{{ url_for('main.package_detail', package_id=package.id) }}" class="btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 3rem; color: #0066cc; margin-bottom: 1rem;">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>No packages found</h3>
+                        <p>No tour packages match your selected filters. Please try different criteria.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <style>
+    .packages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+</style>
+{% endblock %}

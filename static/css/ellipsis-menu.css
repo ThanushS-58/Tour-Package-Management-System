@@ -1,0 +1,86 @@
+/* Ellipsis Menu Styles */
+.ellipsis-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.ellipsis-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 1.25rem;
+    transition: color 0.2s ease;
+    border-radius: 50%;
+}
+
+.ellipsis-btn:hover {
+    color: #0066cc;
+    background-color: rgba(0, 102, 204, 0.1);
+}
+
+.ellipsis-menu-content {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    min-width: 160px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0;
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: visibility 0s linear 0.2s, opacity 0.2s, transform 0.2s;
+}
+
+.ellipsis-menu.active .ellipsis-menu-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0s;
+}
+
+.ellipsis-menu-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #495057;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.ellipsis-menu-item:hover {
+    background-color: #f8f9fa;
+    color: #0066cc;
+}
+
+.ellipsis-menu-item.danger {
+    color: #dc3545;
+}
+
+.ellipsis-menu-item.danger:hover {
+    background-color: #fee;
+    color: #dc3545;
+}
+
+.ellipsis-menu-divider {
+    height: 1px;
+    background-color: #e9ecef;
+    margin: 0.5rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ellipsis-menu-content {
+        right: 0;
+        max-width: 200px;
+    }
+}

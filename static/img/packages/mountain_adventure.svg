@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Sky -->
+  <rect width="800" height="500" fill="#B0E0E6"/>
+  
+  <!-- Sun -->
+  <circle cx="80" cy="80" r="50" fill="#FDB813"/>
+  <circle cx="80" cy="80" r="60" fill="#FDB813" opacity="0.3"/>
+  
+  <!-- Far Mountains -->
+  <path d="M0,180 L100,150 L200,200 L300,160 L400,190 L500,150 L600,180 L700,150 L800,170 L800,500 L0,500 Z" fill="#9CB4CC"/>
+  
+  <!-- Mid Mountains -->
+  <path d="M0,220 L150,120 L250,180 L350,100 L450,180 L550,120 L650,190 L750,100 L800,180 L800,500 L0,500 Z" fill="#748CAB"/>
+  
+  <!-- Near Mountains -->
+  <path d="M0,260 L120,160 L200,220 L280,150 L350,280 L420,180 L520,260 L580,190 L680,290 L750,180 L800,240 L800,500 L0,500 Z" fill="#5D698D"/>
+  
+  <!-- Snow Caps -->
+  <path d="M120,160 L140,145 L160,162 L200,220 L180,210 Z" fill="white"/>
+  <path d="M280,150 L300,130 L320,145 L350,280 L330,260 Z" fill="white"/>
+  <path d="M420,180 L450,130 L480,160 L520,260 L490,230 Z" fill="white"/>
+  <path d="M580,190 L600,150 L620,170 L680,290 L650,260 Z" fill="white"/>
+  <path d="M750,180 L770,150 L790,165 L800,240 L780,220 Z" fill="white"/>
+  
+  <!-- Pine Trees (Far) -->
+  <g transform="translate(120, 300)">
+    <path d="M0,0 L10,-15 L20,0 L15,0 L25,-20 L35,0 L30,0 L40,-25 L50,0 L45,0 L55,-15 L65,0 Z" fill="#2E4033"/>
+    <rect x="30" y="0" width="5" height="10" fill="#5A3A22"/>
+  </g>
+  
+  <g transform="translate(210, 320)">
+    <path d="M0,0 L10,-15 L20,0 L15,0 L25,-20 L35,0 L30,0 L40,-25 L50,0 L45,0 L55,-15 L65,0 Z" fill="#2E4033"/>
+    <rect x="30" y="0" width="5" height="10" fill="#5A3A22"/>
+  </g>
+  
+  <g transform="translate(310, 330)">
+    <path d="M0,0 L10,-15 L20,0 L15,0 L25,-20 L35,0 L30,0 L40,-25 L50,0 L45,0 L55,-15 L65,0 Z" fill="#2E4033"/>
+    <rect x="30" y="0" width="5" height="10" fill="#5A3A22"/>
+  </g>
+  
+  <!-- Pine Trees (Near) -->
+  <g transform="translate(400, 360)">
+    <path d="M0,0 L15,-25 L30,0 L25,0 L40,-30 L55,0 L50,0 L65,-40 L80,0 L75,0 L90,-25 L105,0 Z" fill="#1E352F"/>
+    <rect x="50" y="0" width="8" height="15" fill="#4A2C10"/>
+  </g>
+  
+  <g transform="translate(520, 380)">
+    <path d="M0,0 L15,-25 L30,0 L25,0 L40,-30 L55,0 L50,0 L65,-40 L80,0 L75,0 L90,-25 L105,0 Z" fill="#1E352F"/>
+    <rect x="50" y="0" width="8" height="15" fill="#4A2C10"/>
+  </g>
+  
+  <g transform="translate(650, 350)">
+    <path d="M0,0 L15,-25 L30,0 L25,0 L40,-30 L55,0 L50,0 L65,-40 L80,0 L75,0 L90,-25 L105,0 Z" fill="#1E352F"/>
+    <rect x="50" y="0" width="8" height="15" fill="#4A2C10"/>
+  </g>
+  
+  <!-- Mountain Cabin -->
+  <g transform="translate(180, 420)">
+    <!-- Cabin base -->
+    <rect x="0" y="0" width="120" height="60" fill="#8B4513"/>
+    <!-- Roof -->
+    <path d="M-10,-10 L60,-40 L130,-10 Z" fill="#A52A2A"/>
+    <!-- Door -->
+    <rect x="50" y="20" width="20" height="40" fill="#5A3A22"/>
+    <!-- Windows -->
+    <rect x="20" y="20" width="15" height="15" fill="#87CEEB"/>
+    <rect x="85" y="20" width="15" height="15" fill="#87CEEB"/>
+    <!-- Chimney -->
+    <rect x="90" y="-30" width="10" height="20" fill="#A52A2A"/>
+    <path d="M90,-30 L95,-35 L100,-30 Z" fill="#A52A2A"/>
+  </g>
+  
+  <!-- Mountain Path -->
+  <path d="M240,480 C260,460 280,470 320,440 C350,420 370,430 400,410 C430,390 460,400 500,380" fill="none" stroke="#8B7355" stroke-width="5"/>
+  
+  <!-- Foreground grass -->
+  <path d="M0,500 L800,500 L800,450 C700,460 600,440 500,450 C400,460 300,440 200,460 C100,470 50,450 0,460 Z" fill="#355E3B"/>
+  
+  <!-- Hiker -->
+  <g transform="translate(450, 410)">
+    <!-- Body -->
+    <circle cx="0" cy="0" r="5" fill="#FF7F50"/>
+    <line x1="0" y1="5" x2="0" y2="20" stroke="#FF7F50" stroke-width="2"/>
+    <!-- Arms -->
+    <line x1="0" y1="8" x2="-8" y2="15" stroke="#FF7F50" stroke-width="2"/>
+    <line x1="0" y1="8" x2="8" y2="5" stroke="#FF7F50" stroke-width="2"/>
+    <!-- Legs -->
+    <line x1="0" y1="20" x2="-5" y2="30" stroke="#FF7F50" stroke-width="2"/>
+    <line x1="0" y1="20" x2="5" y2="30" stroke="#FF7F50" stroke-width="2"/>
+    <!-- Backpack -->
+    <rect x="-4" y="-2" width="8" height="10" rx="2" fill="#8B4513"/>
+    <!-- Hiking staff -->
+    <line x1="8" y1="5" x2="10" y2="30" stroke="#8B4513" stroke-width="1"/>
+  </g>
+</svg>

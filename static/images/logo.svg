@@ -1,0 +1,17 @@
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="60" rx="8" fill="#ffffff" />
+  
+  <!-- Mountain Icon -->
+  <path d="M40 15 L60 45 L20 45 Z" fill="#0066cc" />
+  <path d="M65 25 L80 45 L50 45 Z" fill="#ff9900" />
+  
+  <!-- Sun -->
+  <circle cx="70" cy="20" r="7" fill="#ff9900" />
+  
+  <!-- Text: Tour -->
+  <text x="90" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0066cc">Tour</text>
+  
+  <!-- Text: Package -->
+  <text x="90" y="45" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0066cc">Package</text>
+</svg>

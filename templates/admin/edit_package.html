@@ -1,0 +1,182 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Edit Package - Admin Dashboard{% endblock %}
+
+{% block header_title %}Edit Tour Package{% endblock %}
+
+{% block content %}
+    <div class="admin-form">
+        <form method="POST" action="{{ url_for('admin.edit_package', package_id=package.id) }}" enctype="multipart/form-data" class="package-form">
+            {{ form.hidden_tag() }}
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div>
+                    <h3 style="margin-top: 0; margin-bottom: 1.5rem;">Package Details</h3>
+                    
+                    <div class="admin-form-group">
+                        {{ form.name.label(class="admin-form-label") }}
+                        {{ form.name(class="admin-form-control", placeholder="Enter package name") }}
+                        {% if form.name.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        {{ form.description.label(class="admin-form-label") }}
+                        {{ form.description(class="admin-form-control", rows=4, placeholder="Enter package description") }}
+                        {% if form.description.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        {{ form.location.label(class="admin-form-label") }}
+                        {{ form.location(class="admin-form-control", placeholder="Enter package location") }}
+                        {% if form.location.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.location.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="admin-form-group">
+                            {{ form.price.label(class="admin-form-label") }}
+                            {{ form.price(class="admin-form-control", placeholder="Enter price", type="number") }}
+                            {% if form.price.errors %}
+                                <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                    {% for error in form.price.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            {{ form.duration.label(class="admin-form-label") }}
+                            {{ form.duration(class="admin-form-control", placeholder="Enter duration in days", type="number") }}
+                            {% if form.duration.errors %}
+                                <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                    {% for error in form.duration.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        {{ form.available_slots.label(class="admin-form-label") }}
+                        {{ form.available_slots(class="admin-form-control", placeholder="Enter available slots", type="number") }}
+                        {% if form.available_slots.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.available_slots.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="margin-top: 0; margin-bottom: 1.5rem;">Package Image & Settings</h3>
+                    
+                    <div class="admin-form-group">
+                        {{ form.image.label(class="admin-form-label") }}
+                        <div style="margin-bottom: 1rem;">
+                            <div class="image-preview" style="width: 100%; height: 200px; background-color: #f8f9fa; border: 1px dashed #ced4da; border-radius: 4px; display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem; background-size: cover; background-position: center; {% if package.image_path %}background-image: url('{{ url_for('static', filename=package.image_path) }}');{% endif %}">
+                                {% if not package.image_path %}
+                                    <i class="fas fa-image" style="font-size: 3rem; color: #ced4da;"></i>
+                                {% endif %}
+                            </div>
+                            {{ form.image(class="admin-form-control-file") }}
+                        </div>
+                        {% if form.image.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.image.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                            Supported formats: JPG, JPEG, PNG, SVG. Max size: 5MB.
+                        </div>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <div style="display: flex; align-items: center;">
+                            {{ form.is_featured(style="margin-right: 0.5rem;") }}
+                            {{ form.is_featured.label }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <h3 style="margin-top: 0; margin-bottom: 1.5rem;">Package Itinerary & Details</h3>
+                
+                <div class="admin-form-group">
+                    {{ form.itinerary.label(class="admin-form-label") }}
+                    {{ form.itinerary(class="admin-form-control", rows=6, placeholder="Enter detailed itinerary (day by day)") }}
+                    {% if form.itinerary.errors %}
+                        <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                            {% for error in form.itinerary.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                        Format: Day 1: Description, Day 2: Description, etc.
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="admin-form-group">
+                        {{ form.includes.label(class="admin-form-label") }}
+                        {{ form.includes(class="admin-form-control", rows=4, placeholder="Enter what's included in the package") }}
+                        {% if form.includes.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.includes.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                            Enter each item on a new line.
+                        </div>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        {{ form.excludes.label(class="admin-form-label") }}
+                        {{ form.excludes(class="admin-form-control", rows=4, placeholder="Enter what's not included in the package") }}
+                        {% if form.excludes.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.excludes.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                            Enter each item on a new line.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; display: flex; justify-content: space-between;">
+                <a href="{{ url_for('admin.admin_packages') }}" class="admin-btn admin-btn-secondary">Cancel</a>
+                {{ form.submit(class="admin-btn admin-btn-primary") }}
+            </div>
+        </form>
+    </div>
+{% endblock %}

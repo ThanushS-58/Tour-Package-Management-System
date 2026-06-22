@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Sky background -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#64B5F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#90CAF9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#skyGradient)"/>
+  
+  <!-- Sun -->
+  <circle cx="650" cy="80" r="50" fill="#FFD54F"/>
+  <circle cx="650" cy="80" r="60" fill="#FFD54F" opacity="0.3"/>
+  
+  <!-- Ocean -->
+  <defs>
+    <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#039BE5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#01579B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path d="M0,320 L800,320 L800,500 L0,500 Z" fill="url(#oceanGradient)"/>
+  
+  <!-- Mountains in background -->
+  <path d="M0,320 L100,260 L150,290 L200,250 L250,280 L300,240 L350,270 L400,230 L450,270 L500,240 L550,260 L600,230 L650,250 L700,220 L750,270 L800,240 L800,320 L0,320 Z" fill="#7986CB" opacity="0.5"/>
+  
+  <!-- Beach -->
+  <path d="M0,320 C50,330 100,325 150,335 C200,345 250,340 300,350 C350,360 400,355 450,365 C500,375 550,360 600,370 C650,380 700,375 750,385 C775,390 800,385 800,385 L800,420 L0,420 Z" fill="#FFF176"/>
+  
+  <!-- Rice terraces -->
+  <path d="M0,320 C100,300 200,310 300,290 C400,270 500,280 600,260 C700,240 800,250 800,250 L800,320 L0,320 Z" fill="#8BC34A"/>
+  <path d="M0,310 C100,290 200,300 300,280 C400,260 500,270 600,250 C700,230 800,240 800,240 L800,250 L600,260 C500,280 400,270 300,290 C200,310 100,300 0,320 Z" fill="#7CB342"/>
+  <path d="M0,300 C100,280 200,290 300,270 C400,250 500,260 600,240 C700,220 800,230 800,230 L800,240 L600,250 C500,270 400,260 300,280 C200,300 100,290 0,310 Z" fill="#689F38"/>
+  <path d="M0,290 C100,270 200,280 300,260 C400,240 500,250 600,230 C700,210 800,220 800,220 L800,230 L600,240 C500,260 400,250 300,270 C200,290 100,280 0,300 Z" fill="#558B2F"/>
+  <path d="M0,280 C100,260 200,270 300,250 C400,230 500,240 600,220 C700,200 800,210 800,210 L800,220 L600,230 C500,250 400,240 300,260 C200,280 100,270 0,290 Z" fill="#33691E"/>
+  
+  <!-- Traditional Balinese temple - Pura -->
+  <g transform="translate(300, 220)">
+    <!-- Base -->
+    <rect x="-25" y="30" width="50" height="10" fill="#A1887F"/>
+    <!-- Main structure -->
+    <rect x="-20" y="10" width="40" height="20" fill="#8D6E63"/>
+    <!-- Roof layers (meru) -->
+    <path d="M-25,10 L25,10 L0,-10 Z" fill="#5D4037"/>
+    <path d="M-18,0 L18,0 L0,-15 Z" fill="#5D4037"/>
+    <path d="M-12,-10 L12,-10 L0,-25 Z" fill="#5D4037"/>
+    <!-- Decorative elements -->
+    <rect x="-3" y="20" width="6" height="10" fill="#4E342E"/>
+  </g>
+  
+  <!-- Palm trees -->
+  <!-- Palm 1 -->
+  <g transform="translate(150, 330)">
+    <!-- Trunk -->
+    <path d="M0,0 C2,-10 -2,-20 0,-60" stroke="#795548" stroke-width="5" fill="none"/>
+    <!-- Leaves -->
+    <path d="M0,-60 C10,-55 20,-45 30,-35" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-60 C15,-55 25,-40 35,-30" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-60 C15,-50 20,-35 25,-25" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-60 C5,-55 8,-45 10,-30" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-60 C-10,-55 -20,-45 -30,-35" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-60 C-15,-55 -25,-40 -35,-30" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-60 C-15,-50 -20,-35 -25,-25" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-60 C-5,-55 -8,-45 -10,-30" stroke="#66BB6A" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Palm 2 -->
+  <g transform="translate(550, 330)">
+    <!-- Trunk -->
+    <path d="M0,0 C-3,-15 5,-30 0,-70" stroke="#795548" stroke-width="6" fill="none"/>
+    <!-- Leaves -->
+    <path d="M0,-70 C10,-65 30,-55 40,-45" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-70 C15,-65 35,-50 45,-40" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-70 C15,-60 25,-45 35,-30" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-70 C5,-65 15,-55 20,-40" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-70 C-10,-65 -30,-55 -40,-45" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-70 C-15,-65 -35,-50 -45,-40" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-70 C-15,-60 -25,-45 -35,-30" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-70 C-5,-65 -15,-55 -20,-40" stroke="#66BB6A" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Palm 3 -->
+  <g transform="translate(650, 340)">
+    <!-- Trunk -->
+    <path d="M0,0 C2,-10 -4,-20 0,-50" stroke="#795548" stroke-width="4" fill="none"/>
+    <!-- Leaves -->
+    <path d="M0,-50 C8,-47 18,-40 25,-32" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-50 C12,-45 20,-35 28,-25" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-50 C10,-42 15,-30 20,-20" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-50 C4,-45 7,-35 8,-25" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-50 C-8,-47 -18,-40 -25,-32" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-50 C-12,-45 -20,-35 -28,-25" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-50 C-10,-42 -15,-30 -20,-20" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-50 C-4,-45 -7,-35 -8,-25" stroke="#66BB6A" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Palm 4 -->
+  <g transform="translate(50, 340)">
+    <!-- Trunk -->
+    <path d="M0,0 C-1,-12 3,-24 0,-55" stroke="#795548" stroke-width="5" fill="none"/>
+    <!-- Leaves -->
+    <path d="M0,-55 C9,-52 19,-42 27,-32" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-55 C13,-50 23,-37 30,-27" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-55 C12,-47 17,-32 22,-22" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-55 C4,-50 7,-40 9,-30" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-55 C-9,-52 -19,-42 -27,-32" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-55 C-13,-50 -23,-37 -30,-27" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-55 C-12,-47 -17,-32 -22,-22" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <path d="M0,-55 C-4,-50 -7,-40 -9,-30" stroke="#66BB6A" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Traditional Balinese umbrella (ceremonial) -->
+  <g transform="translate(450, 350)">
+    <rect x="-1" y="0" width="2" height="30" fill="#795548"/>
+    <path d="M-15,-5 C-10,-15 10,-15 15,-5" fill="#F44336"/>
+    <path d="M-10,-2 C-7,-7 7,-7 10,-2" fill="#E53935"/>
+  </g>
+  
+  <!-- Traditional Boat (Jukung) -->
+  <g transform="translate(350, 370)">
+    <path d="M-30,0 L30,0 L20,10 L-20,10 Z" fill="#5D4037"/>
+    <path d="M-20,10 C-15,5 15,5 20,10" fill="none" stroke="#5D4037" stroke-width="1"/>
+    <path d="M-35,-3 L-30,0 M35,-3 L30,0" fill="none" stroke="#8D6E63" stroke-width="2"/>
+    <rect x="-1" y="-20" width="2" height="20" fill="#8D6E63"/>
+    <path d="M1,-20 L10,-15 L1,-10 Z" fill="#3E2723"/>
+  </g>
+  
+  <!-- Traditional Boat (Jukung) 2 -->
+  <g transform="translate(700, 380)">
+    <path d="M-20,0 L20,0 L15,7 L-15,7 Z" fill="#5D4037"/>
+    <path d="M-15,7 C-10,4 10,4 15,7" fill="none" stroke="#5D4037" stroke-width="1"/>
+    <path d="M-25,-2 L-20,0 M25,-2 L20,0" fill="none" stroke="#8D6E63" stroke-width="2"/>
+    <rect x="-0.5" y="-15" width="1" height="15" fill="#8D6E63"/>
+    <path d="M0.5,-15 L7,-12 L0.5,-8 Z" fill="#3E2723"/>
+  </g>
+  
+  <!-- Wave patterns -->
+  <path d="M0,350 Q40,340 80,350 Q120,360 160,350 Q200,340 240,350 Q280,360 320,350 Q360,340 400,350 Q440,360 480,350 Q520,340 560,350 Q600,360 640,350 Q680,340 720,350 Q760,360 800,350" fill="none" stroke="#29B6F6" stroke-width="1.5" opacity="0.5"/>
+  
+  <path d="M0,365 Q40,355 80,365 Q120,375 160,365 Q200,355 240,365 Q280,375 320,365 Q360,355 400,365 Q440,375 480,365 Q520,355 560,365 Q600,375 640,365 Q680,355 720,365 Q760,375 800,365" fill="none" stroke="#29B6F6" stroke-width="1.5" opacity="0.5"/>
+  
+  <path d="M0,380 Q40,370 80,380 Q120,390 160,380 Q200,370 240,380 Q280,390 320,380 Q360,370 400,380 Q440,390 480,380 Q520,370 560,380 Q600,390 640,380 Q680,370 720,380 Q760,390 800,380" fill="none" stroke="#29B6F6" stroke-width="1.5" opacity="0.5"/>
+  
+  <!-- Clouds -->
+  <g opacity="0.8">
+    <ellipse cx="150" cy="100" rx="50" ry="20" fill="#FFFFFF"/>
+    <ellipse cx="180" cy="90" rx="40" ry="25" fill="#FFFFFF"/>
+    <ellipse cx="120" cy="90" rx="30" ry="15" fill="#FFFFFF"/>
+    
+    <ellipse cx="450" cy="80" rx="40" ry="15" fill="#FFFFFF"/>
+    <ellipse cx="480" cy="75" rx="30" ry="20" fill="#FFFFFF"/>
+    <ellipse cx="420" cy="75" rx="25" ry="12" fill="#FFFFFF"/>
+  </g>
+</svg>

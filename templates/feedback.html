@@ -1,0 +1,223 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Submit Feedback - Tour Package Management{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 0; background-color: #f8f9fa;">
+    <div class="container">
+        <div class="section-title">
+            <h2>Submit Your Feedback</h2>
+            <p>Share your experience about {{ booking.package.name }}</p>
+        </div>
+        
+        <div class="feedback-form" style="max-width: 600px; margin: 0 auto;">
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                
+                <div class="feedback-rating">
+                    {{ form.rating.label(class="form-label") }}
+                    <div class="star-rating-container">
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating" value="5" {% if form.rating.data == '5' %}checked{% endif %}>
+                            <label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" id="star4" name="rating" value="4" {% if form.rating.data == '4' %}checked{% endif %}>
+                            <label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" id="star3" name="rating" value="3" {% if form.rating.data == '3' %}checked{% endif %}>
+                            <label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" id="star2" name="rating" value="2" {% if form.rating.data == '2' %}checked{% endif %}>
+                            <label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+                            
+                            <input type="radio" id="star1" name="rating" value="1" {% if form.rating.data == '1' %}checked{% endif %}>
+                            <label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.comment.label(class="form-label") }}
+                    {{ form.comment(class="form-control", rows="5", placeholder="Share your experience with this tour package...") }}
+                </div>
+                
+                <div class="form-group">
+                    <div class="profile-image-upload">
+                        <div class="current-profile">
+                            <div class="profile-preview">
+                                <img id="profile-preview" src="{{ url_for('static', filename=current_user.profile_image) }}" alt="{{ current_user.username }}">
+                            </div>
+                            <div class="profile-info">
+                                <div class="profile-name">{{ current_user.full_name }}</div>
+                                <div class="profile-update">Update your profile picture</div>
+                            </div>
+                        </div>
+                        
+                        <div class="custom-file-upload">
+                            <div class="file-upload-wrapper">
+                                <label for="profile_image" class="file-upload-label">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Choose a photo</span>
+                                </label>
+                                {{ form.profile_image(id="profile_image", class="hidden-file-input") }}
+                            </div>
+                            <div class="file-name" id="file-name">No file chosen</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    {{ form.submit(class="btn-primary") }}
+                </div>
+            </form>
+            
+            <style>
+                /* Star Rating */
+                .feedback-rating {
+                    margin-bottom: 2rem;
+                }
+                
+                .star-rating-container {
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 1rem;
+                }
+                
+                .star-rating {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    font-size: 2rem;
+                    justify-content: space-around;
+                    text-align: center;
+                    width: 16rem;
+                }
+                
+                .star-rating input {
+                    display: none;
+                }
+                
+                .star-rating label {
+                    color: #ddd;
+                    cursor: pointer;
+                    transition: color 0.3s ease;
+                }
+                
+                .star-rating input:checked ~ label,
+                .star-rating label:hover,
+                .star-rating label:hover ~ label {
+                    color: #ffc107;
+                }
+                
+                /* Profile Image Upload */
+                .profile-image-upload {
+                    background-color: #f8f9fa;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    margin-top: 2rem;
+                }
+                
+                .current-profile {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 1.5rem;
+                }
+                
+                .profile-preview {
+                    width: 64px;
+                    height: 64px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin-right: 1rem;
+                    border: 2px solid #e9ecef;
+                }
+                
+                .profile-preview img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                
+                .profile-name {
+                    font-weight: 600;
+                    color: #333;
+                }
+                
+                .profile-update {
+                    font-size: 0.85rem;
+                    color: #6c757d;
+                }
+                
+                .custom-file-upload {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+                
+                .file-upload-wrapper {
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                .file-upload-label {
+                    background-color: #0066cc;
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    display: inline-flex;
+                    align-items: center;
+                    transition: background-color 0.3s ease;
+                }
+                
+                .file-upload-label:hover {
+                    background-color: #0055aa;
+                }
+                
+                .file-upload-label i {
+                    margin-right: 0.5rem;
+                }
+                
+                .hidden-file-input {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    opacity: 0;
+                    width: 0.1px;
+                    height: 0.1px;
+                }
+                
+                .file-name {
+                    font-size: 0.85rem;
+                    color: #6c757d;
+                }
+            </style>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Handle file selection and preview
+                    const fileInput = document.getElementById('profile_image');
+                    const fileNameDisplay = document.getElementById('file-name');
+                    const imgPreview = document.getElementById('profile-preview');
+                    
+                    fileInput.addEventListener('change', function() {
+                        if (this.files && this.files[0]) {
+                            const fileName = this.files[0].name;
+                            fileNameDisplay.textContent = fileName;
+                            
+                            // Preview the image
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                imgPreview.src = e.target.result;
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        } else {
+                            fileNameDisplay.textContent = 'No file chosen';
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</section>
+{% endblock %}

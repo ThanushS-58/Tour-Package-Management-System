@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard - Tour Package Management{% endblock %}</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Sidebar -->
+        <div class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-logo">Tour Admin</a>
+            </div>
+            
+            <ul class="admin-nav">
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin.admin_dashboard') }}" class="admin-nav-link {% if request.endpoint == 'admin.admin_dashboard' %}active{% endif %}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="admin-nav-text">Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin.admin_packages') }}" class="admin-nav-link {% if request.endpoint in ['admin.admin_packages', 'admin.add_package', 'admin.edit_package'] %}active{% endif %}">
+                        <i class="fas fa-suitcase"></i>
+                        <span class="admin-nav-text">Tour Packages</span>
+                    </a>
+                </li>
+                
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin.admin_bookings') }}" class="admin-nav-link {% if request.endpoint == 'admin.admin_bookings' %}active{% endif %}">
+                        <i class="fas fa-calendar-check"></i>
+                        <span class="admin-nav-text">Bookings</span>
+                    </a>
+                </li>
+                
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin.admin_users') }}" class="admin-nav-link {% if request.endpoint == 'admin.admin_users' %}active{% endif %}">
+                        <i class="fas fa-users"></i>
+                        <span class="admin-nav-text">Users</span>
+                    </a>
+                </li>
+                
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin.database_viewer') }}" class="admin-nav-link {% if request.endpoint == 'admin.database_viewer' %}active{% endif %}">
+                        <i class="fas fa-database"></i>
+                        <span class="admin-nav-text">Database Viewer</span>
+                    </a>
+                </li>
+                
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin.admin_destinations') }}" class="admin-nav-link {% if request.endpoint == 'admin.admin_destinations' %}active{% endif %}">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span class="admin-nav-text">Destinations</span>
+                    </a>
+                </li>
+                
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin.admin_profile') }}" class="admin-nav-link {% if request.endpoint == 'admin.admin_profile' %}active{% endif %}">
+                        <i class="fas fa-user-shield"></i>
+                        <span class="admin-nav-text">Admin Profile</span>
+                    </a>
+                </li>
+                
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin.admin_logout') }}" class="admin-nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="admin-nav-text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Admin Content -->
+        <div class="admin-content">
+            <!-- Admin Header -->
+            <div class="admin-header">
+                <h1 class="admin-title">{% block header_title %}Admin Dashboard{% endblock %}</h1>
+                
+                <div class="admin-actions">
+                    <div class="admin-user">
+                        <div class="admin-user-image">
+                            {{ current_user.username[0].upper() }}
+                        </div>
+                        <div class="admin-user-name">{{ current_user.username }}</div>
+                    </div>
+                    
+                    <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}" style="margin-bottom: 2rem; padding: 1rem; border-radius: 4px; {% if category == 'success' %}background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;{% elif category == 'danger' %}background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;{% elif category == 'warning' %}background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Main Content -->
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,449 @@
+{% extends 'base.html' %}
+
+{% block title %}Complete Payment - {{ booking.package.name }}{% endblock %}
+
+{% block content %}
+<div class="payment-page">
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>Complete Your Payment</h1>
+            <p>Select your preferred payment method</p>
+        </div>
+
+        <div class="payment-main">
+            <form method="POST" class="payment-form">
+                {{ form.hidden_tag() }}
+
+                <div class="payment-method-selector">
+                    <h2>Select Payment Method</h2>
+                    <div class="payment-option active" data-method="UPI">
+                        <input type="radio" name="payment_method" value="UPI" id="UPI" checked>
+                        <label for="UPI">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>UPI Payment</span>
+                        </label>
+                    </div>
+                    <div class="payment-option" data-method="Bank-Transfer">
+                        <input type="radio" name="payment_method" value="Bank Transfer" id="Bank-Transfer">
+                        <label for="Bank-Transfer">
+                            <i class="fas fa-university"></i>
+                            <span>Bank Transfer</span>
+                        </label>
+                    </div>
+                    <div class="payment-option" data-method="Card">
+                        <input type="radio" name="payment_method" value="Card" id="Card">
+                        <label for="Card">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Credit/Debit Card</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="payment-details">
+                    <!-- UPI Details -->
+                    <div class="payment-method-form active" id="UPI-form">
+                        <div class="upi-container">
+                            <div class="upi-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">UPI ID</label>
+                                {{ form.upi_id(class="form-control", placeholder="e.g. yourname@upi") }}
+                                <div class="upi-hint">Enter your UPI ID to proceed with the payment</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Transfer Details -->
+                    <div class="payment-method-form" id="Bank-Transfer-form">
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            {{ form.bank_name(class="form-control", placeholder="Enter bank name") }}
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            {{ form.account_number(class="form-control", placeholder="Enter account number") }}
+                        </div>
+                        <div class="form-group">
+                            <label>IFSC Code</label>
+                            {{ form.ifsc_code(class="form-control", placeholder="Enter IFSC code") }}
+                        </div>
+                    </div>
+
+                    <!-- Card Details -->
+                    <div class="payment-method-form" id="Card-form">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            {{ form.card_number(class="form-control", placeholder="1234 5678 9012 3456") }}
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label>Expiry Date</label>
+                                {{ form.card_expiry(class="form-control", placeholder="MM/YY") }}
+                            </div>
+                            <div class="form-group half">
+                                <label>CVV</label>
+                                {{ form.card_cvv(class="form-control", placeholder="123") }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-summary">
+                        <div class="summary-header">
+                            <h3>Payment Summary</h3>
+                        </div>
+                        <div class="summary-details">
+                            <div class="summary-item">
+                                <span>Package</span>
+                                <span>{{ booking.package.name }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Travel Date</span>
+                                <span>{{ booking.travel_date.strftime('%d %B, %Y') }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Travelers</span>
+                                <span>{{ booking.num_travelers }}</span>
+                            </div>
+                            <div class="summary-item total">
+                                <span>Total Amount</span>
+                                <span>₹{{ "%.2f"|format(booking.total_price) }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="payment-submit-btn">
+                        Complete Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="payment-success-overlay">
+    <div class="success-animation">
+        <div class="checkmark-circle">
+            <div class="checkmark"></div>
+        </div>
+        <h2>Payment Successful!</h2>
+        <p>Your booking has been confirmed</p>
+        <div class="redirect-message">
+            Redirecting to confirmation page...
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.payment-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 40px 0;
+}
+
+.payment-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.payment-header {
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    color: white;
+}
+
+.payment-header h1 {
+    margin: 0;
+    font-size: 2em;
+    animation: slideDown 0.5s ease;
+}
+
+.payment-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 30px;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #e1e1e1;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease;
+}
+
+.payment-option:hover {
+    border-color: #0066cc;
+    transform: translateY(-2px);
+}
+
+.payment-option.active {
+    border-color: #0066cc;
+    background: rgba(0,102,204,0.05);
+}
+
+.payment-option-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.payment-option-content i {
+    font-size: 24px;
+    color: #0066cc;
+}
+
+.payment-option-text h3 {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.payment-option-text p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.payment-method-form {
+    display: none;
+    animation: slideDown 0.3s ease;
+}
+
+.payment-method-form.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+}
+
+.payment-summary {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.summary-details {
+    margin-top: 15px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.summary-item.total {
+    border-top: 2px solid #e1e1e1;
+    border-bottom: none;
+    margin-top: 10px;
+    padding-top: 15px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.payment-submit-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.payment-submit-btn:hover {
+    background: #0052a3;
+    transform: translateY(-2px);
+}
+
+.payment-success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.payment-success-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.success-animation {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.payment-success-overlay.active .success-animation {
+    transform: translateY(0);
+}
+
+.checkmark-circle {
+    width: 80px;
+    height: 80px;
+    background: #28a745;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    position: relative;
+    animation: scaleIn 0.3s ease-out;
+}
+
+.checkmark {
+    width: 40px;
+    height: 24px;
+    border-right: 4px solid white;
+    border-bottom: 4px solid white;
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    animation: checkmark 0.4s ease-in-out 0.4s forwards;
+    opacity: 0;
+}
+
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+@keyframes checkmark {
+    from { opacity: 0; height: 0; }
+    to { opacity: 1; height: 24px; }
+}
+
+@media (max-width: 768px) {
+    .payment-container {
+        margin: 20px;
+        border-radius: 12px;
+    }
+
+    .payment-main {
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentForm = document.querySelector('.payment-form');
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    const methodForms = document.querySelectorAll('.payment-method-form');
+    const submitBtn = document.querySelector('.payment-submit-btn');
+    //Removed btnText and btnLoader as they are not used in the new structure
+    const successOverlay = document.querySelector('.payment-success-overlay');
+
+    // Handle payment option selection
+    paymentOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const method = this.dataset.method;
+
+            // Update radio button
+            const radio = this.querySelector('input[type="radio"]');
+            radio.checked = true;
+
+            // Update active states
+            paymentOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+
+            // Show corresponding form
+            methodForms.forEach(form => {
+                form.classList.remove('active');
+                if (form.id === `${method}-form`) {
+                    form.classList.add('active');
+                }
+            });
+        });
+    });
+
+    // Handle form submission (simplified - no loading animation needed with this structure)
+    paymentForm.addEventListener('submit', function(e) {
+        //e.preventDefault(); //removed preventDefault as we now directly submit the form.
+
+        // Show success animation
+        successOverlay.classList.add('active');
+
+        // Redirect after animation (adjust timeout as needed)
+        setTimeout(() => {
+            this.submit();
+        }, 2000);
+    });
+
+    // Initialize first payment option as active
+    paymentOptions[0].click();
+});
+</script>
+{% endblock %}

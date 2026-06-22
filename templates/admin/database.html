@@ -1,0 +1,304 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Database Viewer | Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Database Viewer</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-database me-1"></i>
+            Database Tables
+        </div>
+        <div class="card-body">
+            <ul class="nav nav-tabs" id="databaseTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Users</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="packages-tab" data-bs-toggle="tab" data-bs-target="#packages" type="button" role="tab" aria-controls="packages" aria-selected="false">Packages</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button" role="tab" aria-controls="bookings" aria-selected="false">Bookings</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="payments-tab" data-bs-toggle="tab" data-bs-target="#payments" type="button" role="tab" aria-controls="payments" aria-selected="false">Payments</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="destinations-tab" data-bs-toggle="tab" data-bs-target="#destinations" type="button" role="tab" aria-controls="destinations" aria-selected="false">Destinations</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="feedbacks-tab" data-bs-toggle="tab" data-bs-target="#feedbacks" type="button" role="tab" aria-controls="feedbacks" aria-selected="false">Feedbacks</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="databaseTabsContent">
+                <!-- Users Table -->
+                <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                    <div class="table-responsive mt-3">
+                        <h3>Users ({{ users|length }})</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Full Name</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Created</th>
+                                    <th>Is Admin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.full_name }}</td>
+                                    <td>{{ user.phone }}</td>
+                                    <td>{{ user.address }}</td>
+                                    <td>{{ user.created_at }}</td>
+                                    <td>{{ user.is_admin }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Packages Table -->
+                <div class="tab-pane fade" id="packages" role="tabpanel" aria-labelledby="packages-tab">
+                    <div class="table-responsive mt-3">
+                        <h3>Tour Packages ({{ packages|length }})</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Duration</th>
+                                    <th>Location</th>
+                                    <th>Slots</th>
+                                    <th>Featured</th>
+                                    <th>Active</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for package in packages %}
+                                <tr>
+                                    <td>{{ package.id }}</td>
+                                    <td>{{ package.name }}</td>
+                                    <td>${{ package.price }}</td>
+                                    <td>{{ package.duration }} days</td>
+                                    <td>{{ package.location }}</td>
+                                    <td>{{ package.available_slots }}</td>
+                                    <td>{{ package.is_featured }}</td>
+                                    <td>{{ package.is_active }}</td>
+                                    <td>{{ package.created_at }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Bookings Table -->
+                <div class="tab-pane fade" id="bookings" role="tabpanel" aria-labelledby="bookings-tab">
+                    <div class="table-responsive mt-3">
+                        <h3>Bookings ({{ bookings|length }})</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User ID</th>
+                                    <th>Package ID</th>
+                                    <th>Booking Date</th>
+                                    <th>Travel Date</th>
+                                    <th>Travelers</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in bookings %}
+                                <tr>
+                                    <td>{{ booking.id }}</td>
+                                    <td>{{ booking.user_id }}</td>
+                                    <td>{{ booking.package_id }}</td>
+                                    <td>{{ booking.booking_date }}</td>
+                                    <td>{{ booking.travel_date }}</td>
+                                    <td>{{ booking.num_travelers }}</td>
+                                    <td>${{ booking.total_price }}</td>
+                                    <td><span class="badge bg-{{ booking.status|lower }}">{{ booking.status }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Payments Table -->
+                <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="payments-tab">
+                    <div class="table-responsive mt-3">
+                        <h3>Payments ({{ payments|length }})</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Booking ID</th>
+                                    <th>Amount</th>
+                                    <th>Payment Date</th>
+                                    <th>Method</th>
+                                    <th>Transaction ID</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for payment in payments %}
+                                <tr>
+                                    <td>{{ payment.id }}</td>
+                                    <td>{{ payment.booking_id }}</td>
+                                    <td>${{ payment.amount }}</td>
+                                    <td>{{ payment.payment_date }}</td>
+                                    <td>{{ payment.payment_method }}</td>
+                                    <td>{{ payment.transaction_id }}</td>
+                                    <td><span class="badge bg-{{ payment.status|lower }}">{{ payment.status }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Destinations Table -->
+                <div class="tab-pane fade" id="destinations" role="tabpanel" aria-labelledby="destinations-tab">
+                    <div class="table-responsive mt-3">
+                        <h3>Popular Destinations ({{ destinations|length }})</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Slogan</th>
+                                    <th>Image</th>
+                                    <th>Display Order</th>
+                                    <th>Active</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for destination in destinations %}
+                                <tr>
+                                    <td>{{ destination.id }}</td>
+                                    <td>{{ destination.name }}</td>
+                                    <td>{{ destination.slogan }}</td>
+                                    <td>
+                                        <img src="{{ destination.image_path }}" alt="{{ destination.name }}" width="100" class="img-thumbnail">
+                                    </td>
+                                    <td>{{ destination.display_order }}</td>
+                                    <td>{{ destination.is_active }}</td>
+                                    <td>{{ destination.created_at }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Settings Table -->
+                <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    <div class="table-responsive mt-3">
+                        <h3>Site Settings ({{ site_settings|length }})</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Setting Name</th>
+                                    <th>Setting Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for setting in site_settings %}
+                                <tr>
+                                    <td>{{ setting.id }}</td>
+                                    <td>{{ setting.setting_name }}</td>
+                                    <td>
+                                        {% if 'background' in setting.setting_name or 'image' in setting.setting_name %}
+                                            <img src="{{ setting.setting_value }}" alt="{{ setting.setting_name }}" width="100" class="img-thumbnail">
+                                        {% else %}
+                                            {{ setting.setting_value }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Feedbacks Table -->
+                <div class="tab-pane fade" id="feedbacks" role="tabpanel" aria-labelledby="feedbacks-tab">
+                    <div class="table-responsive mt-3">
+                        <h3>Feedbacks ({{ feedbacks|length }})</h3>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Booking ID</th>
+                                    <th>Rating</th>
+                                    <th>Comment</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for feedback in feedbacks %}
+                                <tr>
+                                    <td>{{ feedback.id }}</td>
+                                    <td>{{ feedback.booking_id }}</td>
+                                    <td>
+                                        <div class="rating">
+                                            {% for i in range(1, 6) %}
+                                                {% if i <= feedback.rating %}
+                                                    <i class="fas fa-star text-warning"></i>
+                                                {% else %}
+                                                    <i class="far fa-star"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td>{{ feedback.comment }}</td>
+                                    <td>{{ feedback.created_at }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Initialize tabs
+    document.addEventListener('DOMContentLoaded', function() {
+        const triggerTabList = [].slice.call(document.querySelectorAll('#databaseTabs button'));
+        triggerTabList.forEach(function(triggerEl) {
+            const tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function(event) {
+                event.preventDefault();
+                tabTrigger.show();
+            });
+        });
+    });
+</script>
+{% endblock %}

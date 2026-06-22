@@ -1,0 +1,116 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Manage Home Backgrounds - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="h3 mb-4">Manage Home Page Backgrounds</h2>
+
+    <div class="row g-4">
+        <!-- Hero Section Background -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Hero Section</h5>
+                </div>
+                {% if hero_bg %}
+                <img src="{{ url_for('static', filename=hero_bg) }}" 
+                     class="card-img-top" 
+                     alt="Hero Background"
+                     style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <form action="{{ url_for('admin.admin_home_background') }}" method="POST" enctype="multipart/form-data">
+                        {{ form.csrf_token }}
+                        {{ form.section(value='hero', class='d-none') }}
+                        <div class="mb-3">
+                            {{ form.image.label(class='form-label') }}
+                            {{ form.image(class='form-control', onchange='previewImage(this, "heroPreview")') }}
+                        </div>
+                        <div id="heroPreview" class="mb-3 d-none">
+                            <img src="" alt="Preview" class="img-fluid rounded">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update Hero Background</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section Background -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">CTA Section</h5>
+                </div>
+                {% if cta_bg %}
+                <img src="{{ url_for('static', filename=cta_bg) }}" 
+                     class="card-img-top" 
+                     alt="CTA Background"
+                     style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <form action="{{ url_for('admin.admin_home_background') }}" method="POST" enctype="multipart/form-data">
+                        {{ form.csrf_token }}
+                        {{ form.section(value='cta', class='d-none') }}
+                        <div class="mb-3">
+                            {{ form.image.label(class='form-label') }}
+                            {{ form.image(class='form-control', onchange='previewImage(this, "ctaPreview")') }}
+                        </div>
+                        <div id="ctaPreview" class="mb-3 d-none">
+                            <img src="" alt="Preview" class="img-fluid rounded">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update CTA Background</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why Choose Section Background -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Why Choose Section</h5>
+                </div>
+                {% if why_choose_bg %}
+                <img src="{{ url_for('static', filename=why_choose_bg) }}" 
+                     class="card-img-top" 
+                     alt="Why Choose Background"
+                     style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <form action="{{ url_for('admin.admin_home_background') }}" method="POST" enctype="multipart/form-data">
+                        {{ form.csrf_token }}
+                        {{ form.section(value='why_choose', class='d-none') }}
+                        <div class="mb-3">
+                            {{ form.image.label(class='form-label') }}
+                            {{ form.image(class='form-control', onchange='previewImage(this, "whyChoosePreview")') }}
+                        </div>
+                        <div id="whyChoosePreview" class="mb-3 d-none">
+                            <img src="" alt="Preview" class="img-fluid rounded">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update Why Choose Background</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const previewImg = preview.querySelector('img');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            preview.classList.remove('d-none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.classList.add('d-none');
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Manage Packages - Admin Dashboard{% endblock %}
+
+{% block header_title %}Manage Tour Packages{% endblock %}
+
+{% block content %}
+    <div class="admin-recent" style="margin-bottom: 2rem;">
+        <div class="admin-recent-header">
+            <div class="admin-recent-title">Tour Packages</div>
+            <a href="{{ url_for('admin.add_package') }}" class="admin-btn admin-btn-primary">
+                <i class="fas fa-plus"></i> Add New Package
+            </a>
+        </div>
+        
+        <!-- Filter Options -->
+        <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: #f8f9fa; border-radius: 4px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                <div style="flex: 1; min-width: 200px;">
+                    <input type="text" class="form-control table-search" placeholder="Search packages..." style="width: 100%; padding: 0.5rem;">
+                </div>
+                
+                <div style="flex: 1; min-width: 200px;">
+                    <select class="form-control" style="width: 100%; padding: 0.5rem;">
+                        <option value="">All Locations</option>
+                        <option value="Bali">Bali, Indonesia</option>
+                        <option value="Paris">Paris, France</option>
+                        <option value="Tokyo">Tokyo, Japan</option>
+                        <option value="Santorini">Santorini, Greece</option>
+                        <option value="New York">New York, USA</option>
+                    </select>
+                </div>
+                
+                <div style="flex: 1; min-width: 200px;">
+                    <select class="form-control" style="width: 100%; padding: 0.5rem;">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="featured">Featured</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Duration</th>
+                        <th>Price</th>
+                        <th>Available Slots</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if packages %}
+                        {% for package in packages %}
+                            <tr>
+                                <td>{{ package.id }}</td>
+                                <td>
+                                    {% if package.image_path %}
+                                        <div style="width: 60px; height: 40px; background-image: url('{{ url_for('static', filename=package.image_path) }}'); background-size: cover; background-position: center; border-radius: 4px;"></div>
+                                    {% else %}
+                                        <div style="width: 60px; height: 40px; background-image: url('https://source.unsplash.com/1600x900/?{{ package.location|urlencode }}'); background-size: cover; background-position: center; border-radius: 4px;"></div>
+                                    {% endif %}
+                                </td>
+                                <td><a href="{{ url_for('admin.admin_package_detail', package_id=package.id) }}">{{ package.name }}</a></td>
+                                <td>{{ package.location }}</td>
+                                <td>{{ package.duration }} days</td>
+                                <td>₹{{ package.price|int }}</td>
+                                <td>{{ package.available_slots }}</td>
+                                <td>
+                                    {% if package.is_active %}
+                                        <span class="status status-confirmed">Active</span>
+                                    {% else %}
+                                        <span class="status status-cancelled">Inactive</span>
+                                    {% endif %}
+                                    
+                                    {% if package.is_featured %}
+                                        <span class="status" style="background-color: rgba(255, 153, 0, 0.2); color: #ff9900; margin-left: 0.5rem;">
+                                            Featured
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="actions">
+                                    <a href="{{ url_for('main.package_detail', package_id=package.id) }}" class="action-btn" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    
+                                    <a href="{{ url_for('admin.edit_package', package_id=package.id) }}" class="action-btn edit" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    
+                                    <form method="POST" action="{{ url_for('admin.delete_package', package_id=package.id) }}" style="display: inline;">
+                                        <button type="submit" class="action-btn delete delete-btn" title="Delete" onclick="return confirm('Are you sure you want to delete this package?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 3rem;">
+                                <div style="font-size: 3rem; color: #6c757d; margin-bottom: 1rem;">
+                                    <i class="fas fa-suitcase"></i>
+                                </div>
+                                <h3>No Packages Found</h3>
+                                <p>Start adding your first tour package!</p>
+                                <a href="{{ url_for('admin.add_package') }}" class="admin-btn admin-btn-primary" style="margin-top: 1rem;">
+                                    <i class="fas fa-plus"></i> Add New Package
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div style="display: flex; justify-content: center; margin-top: 2rem;">
+        <div style="display: flex; align-items: center;">
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #0066cc; border-radius: 4px; margin-right: 0.5rem; background-color: #0066cc; color: white; text-decoration: none;">1</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">2</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">3</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; color: #6c757d; text-decoration: none;">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+{% endblock %}

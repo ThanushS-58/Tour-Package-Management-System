@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ package.name }} - Tour Package Management{% endblock %}
+
+{% block content %}
+    <section class="package-detail">
+        <div class="container">
+            <div class="package-header">
+                <h1 class="package-title">{{ package.name }}</h1>
+
+                <div class="package-meta">
+                    <div class="package-meta-item">
+                        <i class="fas fa-map-marker-alt"></i> {{ package.location }}
+                    </div>
+
+                    <div class="package-meta-item">
+                        <i class="fas fa-clock"></i> {{ package.duration }} days
+                    </div>
+
+                    <div class="package-meta-item">
+                        <i class="fas fa-users"></i> {{ package.available_slots }} slots available
+                    </div>
+                </div>
+            </div>
+
+            {% if package.image_path %}
+                <div class="package-image" style="background-image: url('{{ url_for('static', filename=package.image_path) }}'); background-size: cover; background-position: center; height: 450px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: cover; overflow: hidden;"></div>
+            {% else %}
+                <div class="package-image" style="background-image: url('https://source.unsplash.com/featured/?{{ package.location|urlencode }},travel,tourism'); background-size: cover; background-position: center; height: 450px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: cover; overflow: hidden;"></div>
+            {% endif %}
+
+            <div class="package-content">
+                <div>
+                    <div class="package-description">
+                        <h2>Package Description</h2>
+                        <p>{{ package.description }}</p>
+                    </div>
+
+                    <div class="package-itinerary">
+                        <h2>Itinerary</h2>
+                        {% set days = package.itinerary.split('\n') %}
+
+                        <div style="margin-top: 1.5rem;">
+                            {% for day in days %}
+                                {% if day.strip() %}
+                                    <div style="margin-bottom: 1.5rem;">
+                                        {% if 'Day' in day %}
+                                            <h3 style="color: #0066cc; margin-bottom: 0.5rem;">{{ day.split(':')[0] }}</h3>
+                                            <p>{{ day.split(':', 1)[1] if ':' in day else day }}</p>
+                                        {% else %}
+                                            <p>{{ day }}</p>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="package-sidebar">
+                    <div class="package-price">₹{{ package.price|int }}</div>
+                    <p style="margin-bottom: 1.5rem;">per person</p>
+
+                    {% if current_user.is_authenticated %}
+                        {% if package.available_slots > 0 %}
+                            <a href="{{ url_for('main.booking', package_id=package.id) }}" class="btn-primary" style="display: block; text-align: center; margin-bottom: 2rem;">Book Now</a>
+                        {% else %}
+                            <button class="btn-primary" disabled style="display: block; width: 100%; text-align: center; margin-bottom: 2rem; opacity: 0.7; cursor: not-allowed;">Sold Out</button>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn-primary" style="display: block; text-align: center; margin-bottom: 2rem;">Login to Book</a>
+                    {% endif %}
+
+                    {% if package.includes %}
+                        <div class="package-includes">
+                            <h3>What's Included</h3>
+                            <ul class="includes-list">
+                                {% for item in package.includes.split('\n') %}
+                                    {% if item.strip() %}
+                                        <li>{{ item }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    {% if package.excludes %}
+                        <div class="package-excludes">
+                            <h3>What's Not Included</h3>
+                            <ul class="excludes-list">
+                                {% for item in package.excludes.split('\n') %}
+                                    {% if item.strip() %}
+                                        <li>{{ item }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Traveler Reviews</h2>
+                {% if avg_rating > 0 %}
+                    <div class="average-rating">
+                        <div class="rating-stars">
+                            {% for i in range(5) %}
+                                {% if i < avg_rating|int %}
+                                    <i class="fas fa-star"></i>
+                                {% elif i < (avg_rating|int + 0.5) and (avg_rating % 1) >= 0.5 %}
+                                    <i class="fas fa-star-half-alt"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="rating-value">{{ "%.1f"|format(avg_rating) }} out of 5</div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="reviews-container">
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-info">
+                                    <div class="review-user-image">
+                                        {% if review.user.profile_image %}
+                                            <img src="{{ url_for('static', filename=review.user.profile_image) }}" alt="{{ review.user.full_name }}'s profile" class="img-fluid rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='images/avatars/placeholder.svg') }}" alt="Default profile" class="img-fluid rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                        {% endif %}
+                                    </div>
+                                    <div class="reviewer-details">
+                                        <div class="reviewer-name">{{ review.user.full_name }}</div>
+                                        <div class="review-date">{{ review.created_at.strftime('%b %d, %Y') }}</div>
+                                    </div>
+                                </div>
+                                <div class="review-rating">
+                                    {% for i in range(5) %}
+                                        {% if i < review.rating %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if review.comment %}
+                                <div class="review-content">
+                                    <p>{{ review.comment }}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-reviews">
+                        <i class="far fa-comment-dots"></i>
+                        <p>No reviews yet. Be the first to share your experience!</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <style>
+                .reviews-section {
+                    padding: 4rem 0;
+                    background-color: #f8f9fa;
+                }
+
+                .section-heading {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 2rem;
+                }
+
+                .section-heading h2 {
+                    margin: 0;
+                    color: #333;
+                }
+
+                .average-rating {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .rating-stars {
+                    color: #ffc107;
+                    margin-right: 0.75rem;
+                }
+
+                .rating-value {
+                    font-weight: 500;
+                    color: #495057;
+                }
+
+                .reviews-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                    gap: 1.5rem;
+                }
+
+                .review-card {
+                    background-color: #fff;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                    padding: 1.5rem;
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                }
+
+                .review-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                }
+
+                .review-header {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 1rem;
+                }
+
+                .reviewer-info {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .review-user-image {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin-right: 1rem;
+                    border: 2px solid #e9ecef;
+                }
+
+                .review-user-image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .reviewer-name {
+                    font-weight: 600;
+                    color: #333;
+                }
+
+                .review-date {
+                    font-size: 0.85rem;
+                    color: #6c757d;
+                }
+
+                .review-rating {
+                    color: #ffc107;
+                }
+
+                .review-content {
+                    color: #495057;
+                    line-height: 1.5;
+                }
+
+                .no-reviews {
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    padding: 3rem;
+                    background-color: #fff;
+                    border-radius: 8px;
+                    color: #6c757d;
+                }
+
+                .no-reviews i {
+                    font-size: 3rem;
+                    margin-bottom: 1rem;
+                    opacity: 0.5;
+                }
+            </style>
+        </div>
+    </section>
+
+    <!-- You May Also Like Section -->
+    <section class="related-packages">
+        <div class="container">
+            <h2>You May Also Like</h2>
+            <div class="related-packages-grid">
+                {% for package in similar_packages %}
+                    <div class="package-card">
+                        <div class="package-image" style="height: 180px; overflow: hidden; border-radius: 8px 8px 0 0;">
+                            {% if package.image_path %}
+                                <img src="{{ url_for('static', filename=package.image_path) }}" alt="{{ package.name }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+                            {% else %}
+                                <img src="https://source.unsplash.com/featured/?{{ package.location|urlencode }},travel" alt="{{ package.name }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+                            {% endif %}
+                        </div>
+                        <div class="package-info">
+                            <h3>{{ package.name }}</h3>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> {{ package.location }}</p>
+                            <p class="price">₹{{ package.price|int }}</p>
+                            <a href="{{ url_for('main.package_detail', package_id=package.id) }}" class="btn-primary">View Details</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,86 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Booking Confirmation{% endblock %}
+
+{% block content %}
+<div class="success-container">
+    <div class="success-animation">
+        <div class="checkmark-wrapper">
+            <div class="checkmark-circle">
+                <div class="checkmark"></div>
+            </div>
+        </div>
+        <h2 class="animate-fade-in">Booking Successful!</h2>
+        <p class="animate-slide-up">Your booking has been confirmed</p>
+        
+        <div class="status-badge animate-scale">
+            <div class="status-icon"></div>
+            <span>{{ booking.status }}</span>
+        </div>
+        
+        <div class="booking-details animate-fade-in">
+            <h3>Booking Details</h3>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Package</span>
+                    <span class="detail-value">{{ booking.package.name }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Booking ID</span>
+                    <span class="detail-value">#{{ booking.id }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Travel Date</span>
+                    <span class="detail-value">{{ booking.travel_date.strftime('%d %B, %Y') }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Return Date</span>
+                    <span class="detail-value">{{ booking.return_date.strftime('%d %B, %Y') }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Departure</span>
+                    <span class="detail-value">{{ booking.travel_date.strftime('%d %B, %Y') }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Return</span>
+                    <span class="detail-value">{{ booking.return_date.strftime('%d %B, %Y') }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Travelers</span>
+                    <span class="detail-value">{{ booking.num_travelers }}</span>
+                </div>
+                <div class="detail-item highlight">
+                    <span class="detail-label">Amount Paid</span>
+                    <span class="detail-value">₹{{ booking.total_price }}</span>
+                </div>
+                <div class="detail-item payment-status-item">
+                    <span class="detail-label">Payment Status</span>
+                    <div class="payment-status-badge {% if booking.status == 'Confirmed' or (booking.payment and booking.payment.status == 'Completed') %}success{% endif %}">
+                        {% if booking.status == 'Confirmed' or (booking.payment and booking.payment.status == 'Completed') %}
+                            <i class="fas fa-check-circle"></i>
+                            <span>Payment Successful</span>
+                        {% elif booking.payment %}
+                            <i class="fas fa-clock"></i>
+                            <span>{{ booking.payment.status }}</span>
+                        {% else %}
+                            <i class="fas fa-clock"></i>
+                            <span>Pending</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if booking.payment %}
+                <div class="detail-item">
+                    <span class="detail-label">Transaction ID</span>
+                    <span class="detail-value">{{ booking.payment.transaction_id }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="success-actions animate-slide-up">
+            <a href="{{ url_for('main.package_detail', package_id=booking.package.id) }}" class="btn-secondary">View Package</a>
+            <a href="{{ url_for('main.booking_history') }}" class="btn-primary">View Bookings</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

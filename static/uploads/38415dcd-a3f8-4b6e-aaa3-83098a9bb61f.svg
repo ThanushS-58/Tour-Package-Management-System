@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Sky -->
+  <rect width="800" height="500" fill="#E6E6FA"/>
+  
+  <!-- Sun/Moon -->
+  <circle cx="700" cy="80" r="40" fill="#FDB813" opacity="0.7"/>
+  <circle cx="700" cy="80" r="50" fill="#FDB813" opacity="0.2"/>
+  
+  <!-- Background mountains -->
+  <path d="M0,200 L100,180 L200,220 L300,190 L400,210 L500,180 L600,230 L700,200 L800,220 L800,500 L0,500 Z" fill="#C4CACD" opacity="0.5"/>
+  
+  <!-- Paris - Eiffel Tower -->
+  <g transform="translate(80, 280)">
+    <!-- Base -->
+    <path d="M40,130 L60,130 L55,100 L45,100 Z" fill="#555555"/>
+    <!-- Tower structure -->
+    <path d="M50,20 L50,100 M45,100 L55,100 M40,130 L60,130" stroke="#555555" stroke-width="2" fill="none"/>
+    <path d="M30,130 L70,130 L65,110 L35,110 Z" fill="#555555"/>
+    <path d="M50,20 L30,130 M50,20 L70,130" stroke="#555555" stroke-width="2" fill="none"/>
+    <path d="M40,80 L60,80" stroke="#555555" stroke-width="1" fill="none"/>
+    <path d="M37,100 L63,100" stroke="#555555" stroke-width="1" fill="none"/>
+    <!-- Small details -->
+    <circle cx="50" cy="20" r="3" fill="#555555"/>
+  </g>
+  
+  <!-- Amsterdam - Canal Houses -->
+  <g transform="translate(210, 300)">
+    <!-- Canal -->
+    <rect x="0" y="80" width="120" height="30" fill="#6BAED6"/>
+    
+    <!-- Houses -->
+    <rect x="0" y="30" width="20" height="50" fill="#E78284"/>
+    <rect x="20" y="20" width="20" height="60" fill="#F4A582"/>
+    <rect x="40" y="25" width="20" height="55" fill="#D6C1DE"/>
+    <rect x="60" y="15" width="20" height="65" fill="#A6D96A"/>
+    <rect x="80" y="30" width="20" height="50" fill="#E78284"/>
+    <rect x="100" y="10" width="20" height="70" fill="#F4A582"/>
+    
+    <!-- House Roofs -->
+    <path d="M0,30 L10,20 L20,30" fill="#A52A2A" stroke="#A52A2A" stroke-width="1"/>
+    <path d="M20,20 L30,10 L40,20" fill="#8B4513" stroke="#8B4513" stroke-width="1"/>
+    <path d="M40,25 L50,15 L60,25" fill="#A52A2A" stroke="#A52A2A" stroke-width="1"/>
+    <path d="M60,15 L70,5 L80,15" fill="#8B4513" stroke="#8B4513" stroke-width="1"/>
+    <path d="M80,30 L90,20 L100,30" fill="#A52A2A" stroke="#A52A2A" stroke-width="1"/>
+    <path d="M100,10 L110,0 L120,10" fill="#8B4513" stroke="#8B4513" stroke-width="1"/>
+    
+    <!-- Boat -->
+    <rect x="30" y="90" width="40" height="10" fill="#8B4513" rx="5"/>
+    <path d="M50,86 L50,90" stroke="#555555" stroke-width="1"/>
+  </g>
+  
+  <!-- Rome - Colosseum -->
+  <g transform="translate(360, 290)">
+    <!-- Base -->
+    <ellipse cx="50" cy="120" rx="45" ry="15" fill="#D2B48C"/>
+    
+    <!-- Structure -->
+    <ellipse cx="50" cy="80" rx="40" ry="40" fill="none" stroke="#D2B48C" stroke-width="8"/>
+    
+    <!-- Arches - Outer layer -->
+    <path d="M15,60 C15,90 85,90 85,60" fill="none" stroke="#D2B48C" stroke-width="4"/>
+    <path d="M18,70 Q25,85 35,70" fill="none" stroke="#D2B48C" stroke-width="2"/>
+    <path d="M38,70 Q50,85 62,70" fill="none" stroke="#D2B48C" stroke-width="2"/>
+    <path d="M65,70 Q75,85 82,70" fill="none" stroke="#D2B48C" stroke-width="2"/>
+    
+    <!-- Inner structure lines -->
+    <path d="M25,55 C25,70 75,70 75,55" fill="none" stroke="#D2B48C" stroke-width="3"/>
+    <path d="M30,55 Q38,65 46,55" fill="none" stroke="#D2B48C" stroke-width="1.5"/>
+    <path d="M54,55 Q62,65 70,55" fill="none" stroke="#D2B48C" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Prague - Charles Bridge and Castle -->
+  <g transform="translate(520, 280)">
+    <!-- Castle on hill -->
+    <path d="M70,60 L120,60 L120,110 L70,110 Z" fill="#8B8878"/>
+    <!-- Castle towers -->
+    <path d="M75,50 L75,60 M85,45 L85,60 M95,40 L95,60 M105,45 L105,60 M115,50 L115,60" stroke="#8B8878" stroke-width="8" stroke-linecap="round"/>
+    <!-- Castle wall details -->
+    <path d="M70,70 L120,70 M70,90 L120,90" stroke="#696969" stroke-width="1"/>
+    
+    <!-- Bridge -->
+    <path d="M0,110 L140,110" stroke="#8B8878" stroke-width="10"/>
+    <!-- Bridge supports -->
+    <path d="M20,110 L20,140 M60,110 L60,140 M100,110 L100,140" stroke="#8B8878" stroke-width="8"/>
+    <!-- Bridge arches -->
+    <path d="M5,125 Q20,110 35,125" stroke="#8B8878" stroke-width="2" fill="none"/>
+    <path d="M45,125 Q60,110 75,125" stroke="#8B8878" stroke-width="2" fill="none"/>
+    <path d="M85,125 Q100,110 115,125" stroke="#8B8878" stroke-width="2" fill="none"/>
+    
+    <!-- Water -->
+    <rect x="0" y="140" width="140" height="30" fill="#6BAED6"/>
+  </g>
+  
+  <!-- City buses and traffic -->
+  <g transform="translate(300, 450)">
+    <!-- London Double Decker -->
+    <rect x="0" y="0" width="40" height="20" rx="3" fill="#FF0000"/>
+    <rect x="0" y="0" width="40" height="10" rx="3" fill="#FF0000"/>
+    <rect x="5" y="0" width="30" height="8" fill="#FFFFFF"/>
+    <circle cx="10" cy="20" r="4" fill="#333333"/>
+    <circle cx="30" cy="20" r="4" fill="#333333"/>
+  </g>
+  
+  <g transform="translate(400, 460)">
+    <!-- European Taxi -->
+    <rect x="0" y="0" width="30" height="12" rx="3" fill="#FFFF00"/>
+    <rect x="5" y="0" width="20" height="7" fill="#FFFFFF"/>
+    <circle cx="8" cy="12" r="3" fill="#333333"/>
+    <circle cx="22" cy="12" r="3" fill="#333333"/>
+  </g>
+  
+  <g transform="translate(480, 455)">
+    <!-- City Tram -->
+    <rect x="0" y="0" width="50" height="15" rx="3" fill="#1E90FF"/>
+    <rect x="5" y="5" width="40" height="5" fill="#FFFFFF"/>
+    <circle cx="10" cy="15" r="3" fill="#333333"/>
+    <circle cx="25" cy="15" r="3" fill="#333333"/>
+    <circle cx="40" cy="15" r="3" fill="#333333"/>
+  </g>
+  
+  <!-- City Foreground -->
+  <path d="M0,500 L800,500 L800,460 C700,470 600,450 500,470 C400,480 300,450 200,470 C100,480 50,460 0,470 Z" fill="#90A959"/>
+  
+  <!-- Tourists Group -->
+  <g transform="translate(170, 470)">
+    <circle cx="0" cy="0" r="4" fill="#FF7F50"/>
+    <circle cx="10" cy="0" r="4" fill="#87CEFA"/>
+    <circle cx="20" cy="0" r="4" fill="#FF69B4"/>
+    <circle cx="5" cy="-8" r="4" fill="#DA70D6"/>
+    <circle cx="15" cy="-8" r="4" fill="#32CD32"/>
+  </g>
+  
+  <!-- Photo Camera Flash -->
+  <g transform="translate(590, 470)">
+    <circle cx="0" cy="0" r="4" fill="#FFD700"/>
+    <circle cx="0" cy="0" r="7" fill="#FFFFFF" opacity="0.5"/>
+    <circle cx="0" cy="0" r="10" fill="#FFFFFF" opacity="0.3"/>
+  </g>
+</svg>

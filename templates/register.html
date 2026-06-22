@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Tour Package Management{% endblock %}
+
+{% block content %}
+    <section style="padding: 4rem 0; background-color: #f8f9fa;">
+        <div class="container">
+            <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; padding: 2rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Create an Account</h2>
+                
+                <form method="POST" action="{{ url_for('auth.register') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group">
+                        {{ form.username.label(class="form-label") }}
+                        {{ form.username(class="form-control", placeholder="Choose a username") }}
+                        {% if form.username.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.username.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control", placeholder="Enter your email address") }}
+                        {% if form.email.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.full_name.label(class="form-label") }}
+                        {{ form.full_name(class="form-control", placeholder="Enter your full name") }}
+                        {% if form.full_name.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.full_name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.phone.label(class="form-label") }}
+                        {{ form.phone(class="form-control", placeholder="Enter your phone number") }}
+                        {% if form.phone.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.phone.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.address.label(class="form-label") }}
+                        {{ form.address(class="form-control", placeholder="Enter your address") }}
+                        {% if form.address.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.address.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control", placeholder="Choose a password") }}
+                        {% if form.password.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.password.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.confirm_password.label(class="form-label") }}
+                        {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+                        {% if form.confirm_password.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.confirm_password.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        {{ form.submit(class="btn-primary", style="width: 100%;") }}
+                    </div>
+                </form>
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

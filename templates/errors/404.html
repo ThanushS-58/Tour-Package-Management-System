@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found - Tour Package Management{% endblock %}
+
+{% block content %}
+    <section style="padding: 6rem 0; background-color: #f8f9fa; text-align: center;">
+        <div class="container">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div style="font-size: 8rem; color: #0066cc; margin-bottom: 2rem;">
+                    <i class="fas fa-map-signs"></i>
+                </div>
+                
+                <h1 style="font-size: 3rem; margin-bottom: 1rem;">404</h1>
+                <h2 style="margin-bottom: 2rem;">Page Not Found</h2>
+                
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #6c757d;">
+                    Oops! It seems you've wandered off the beaten path. The page you're looking for doesn't exist or might have been moved.
+                </p>
+                
+                <div>
+                    <a href="{{ url_for('main.index') }}" class="btn-primary" style="margin-right: 1rem;">Back to Home</a>
+                    <a href="{{ url_for('main.packages') }}" class="btn-outline-primary">Explore Packages</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

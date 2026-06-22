@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Sky background -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A6FDE;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#6B98F1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9BB8FA;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#skyGradient)"/>
+  
+  <!-- Sea gradient -->
+  <defs>
+    <linearGradient id="seaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0077BE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#005588;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sea -->
+  <path d="M0,300 L800,300 L800,500 L0,500 Z" fill="url(#seaGradient)"/>
+  
+  <!-- Island -->
+  <path d="M50,300 C100,280 150,290 200,270 C250,250 300,260 350,240 C400,220 450,230 500,210 C550,190 600,200 650,180 C700,160 750,170 800,150 L800,300 L50,300 Z" fill="#A36B00"/>
+  
+  <!-- Cliff texture -->
+  <path d="M50,300 C100,280 150,290 200,270 C250,250 300,260 350,240 C400,220 450,230 500,210 C550,190 600,200 650,180 C700,160 750,170 800,150 L800,300 L50,300 Z" fill="#C29163" opacity="0.6"/>
+  
+  <!-- Volcanic rock -->
+  <path d="M0,300 C30,290 60,295 90,285 L50,300 Z" fill="#333333"/>
+  <path d="M350,240 C370,235 390,242 410,238 C430,234 450,230 470,225 L500,210 L550,190 L500,210 C480,220 460,225 440,230 C420,240 400,235 380,240 L350,240 Z" fill="#555555" opacity="0.7"/>
+  
+  <!-- Whitewashed buildings -->
+  <!-- Building group 1 -->
+  <g transform="translate(250, 230)">
+    <!-- Main building -->
+    <rect x="0" y="0" width="40" height="30" rx="2" fill="#FFFFFF"/>
+    <rect x="15" y="15" width="15" height="15" fill="#EAEAEA"/>
+    <rect x="10" y="15" width="5" height="10" fill="#555555"/>
+    <!-- Blue dome -->
+    <ellipse cx="20" cy="0" rx="10" ry="5" fill="#FFFFFF"/>
+    <path d="M15,-5 A10,5 0 0,1 25,-5 L25,0 A10,5 0 0,1 15,0 Z" fill="#2A52BE" transform="rotate(180, 20, -2.5)"/>
+    <!-- Additional small structure -->
+    <rect x="40" y="10" width="20" height="20" rx="2" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Building group 2 -->
+  <g transform="translate(400, 200)">
+    <!-- Main structure -->
+    <rect x="0" y="0" width="60" height="40" rx="3" fill="#FFFFFF"/>
+    <rect x="10" y="25" width="15" height="15" fill="#EAEAEA"/>
+    <rect x="35" y="25" width="15" height="15" fill="#EAEAEA"/>
+    <rect x="15" y="30" width="7" height="10" fill="#555555"/>
+    <!-- Two blue domes -->
+    <ellipse cx="15" cy="0" rx="8" ry="4" fill="#FFFFFF"/>
+    <path d="M11,-4 A8,4 0 0,1 19,-4 L19,0 A8,4 0 0,1 11,0 Z" fill="#2A52BE" transform="rotate(180, 15, -2)"/>
+    <ellipse cx="45" cy="0" rx="8" ry="4" fill="#FFFFFF"/>
+    <path d="M41,-4 A8,4 0 0,1 49,-4 L49,0 A8,4 0 0,1 41,0 Z" fill="#2A52BE" transform="rotate(180, 45, -2)"/>
+    <!-- Church bell -->
+    <rect x="45" y="-10" width="3" height="6" fill="#555555"/>
+  </g>
+  
+  <!-- Building group 3 -->
+  <g transform="translate(520, 170)">
+    <!-- Main structure -->
+    <rect x="0" y="0" width="50" height="30" rx="2" fill="#FFFFFF"/>
+    <rect x="50" y="5" width="30" height="25" rx="2" fill="#FFFFFF"/>
+    <rect x="10" y="15" width="12" height="15" fill="#EAEAEA"/>
+    <rect x="30" y="15" width="12" height="15" fill="#EAEAEA"/>
+    <rect x="60" y="18" width="10" height="12" fill="#EAEAEA"/>
+    <rect x="13" y="18" width="6" height="9" fill="#555555"/>
+    <!-- Blue dome -->
+    <ellipse cx="25" cy="0" rx="10" ry="5" fill="#FFFFFF"/>
+    <path d="M20,-5 A10,5 0 0,1 30,-5 L30,0 A10,5 0 0,1 20,0 Z" fill="#2A52BE" transform="rotate(180, 25, -2.5)"/>
+  </g>
+  
+  <!-- Building group 4 -->
+  <g transform="translate(650, 160)">
+    <!-- Multiple levels -->
+    <rect x="0" y="0" width="70" height="20" rx="2" fill="#FFFFFF"/>
+    <rect x="10" y="20" width="60" height="20" rx="2" fill="#FFFFFF"/>
+    <rect x="20" y="40" width="40" height="20" rx="2" fill="#FFFFFF"/>
+    <rect x="15" y="5" width="10" height="10" fill="#EAEAEA"/>
+    <rect x="40" y="5" width="10" height="10" fill="#EAEAEA"/>
+    <rect x="20" y="25" width="10" height="10" fill="#EAEAEA"/>
+    <rect x="50" y="25" width="10" height="10" fill="#EAEAEA"/>
+    <rect x="30" y="45" width="15" height="15" fill="#EAEAEA"/>
+    <rect x="33" y="45" width="6" height="9" fill="#555555"/>
+    <!-- Blue dome -->
+    <ellipse cx="35" cy="40" rx="8" ry="4" fill="#FFFFFF"/>
+    <path d="M31,36 A8,4 0 0,1 39,36 L39,40 A8,4 0 0,1 31,40 Z" fill="#2A52BE" transform="rotate(180, 35, 38)"/>
+  </g>
+  
+  <!-- Building group 5 (lower level) -->
+  <g transform="translate(150, 260)">
+    <!-- Main structures -->
+    <rect x="0" y="0" width="55" height="30" rx="2" fill="#FFFFFF"/>
+    <rect x="15" y="15" width="15" height="15" fill="#EAEAEA"/>
+    <rect x="35" y="15" width="15" height="15" fill="#EAEAEA"/>
+    <rect x="40" y="15" width="5" height="8" fill="#555555"/>
+    <!-- Blue dome -->
+    <ellipse cx="20" cy="0" rx="8" ry="4" fill="#FFFFFF"/>
+    <path d="M16,-4 A8,4 0 0,1 24,-4 L24,0 A8,4 0 0,1 16,0 Z" fill="#2A52BE" transform="rotate(180, 20, -2)"/>
+  </g>
+  
+  <!-- Building group 6 (lower right) -->
+  <g transform="translate(720, 140)">
+    <!-- Main structure -->
+    <rect x="0" y="0" width="40" height="35" rx="2" fill="#FFFFFF"/>
+    <rect x="10" y="20" width="10" height="15" fill="#EAEAEA"/>
+    <rect x="25" y="20" width="10" height="15" fill="#EAEAEA"/>
+    <rect x="12" y="25" width="6" height="10" fill="#555555"/>
+    <!-- Blue dome -->
+    <ellipse cx="20" cy="0" rx="10" ry="5" fill="#FFFFFF"/>
+    <path d="M15,-5 A10,5 0 0,1 25,-5 L25,0 A10,5 0 0,1 15,0 Z" fill="#2A52BE" transform="rotate(180, 20, -2.5)"/>
+  </g>
+  
+  <!-- Stairs -->
+  <g>
+    <path d="M330,240 L340,230 L350,230 L360,220 L370,220 L380,210 L390,210 L400,200" fill="none" stroke="#DDDDDD" stroke-width="2"/>
+    <path d="M580,180 L590,170 L600,170 L610,160 L620,160 L630,150 L640,150 L650,140" fill="none" stroke="#DDDDDD" stroke-width="2"/>
+    <path d="M460,210 L470,200 L480,200 L490,190 L500,190 L510,180" fill="none" stroke="#DDDDDD" stroke-width="2"/>
+  </g>
+  
+  <!-- Sea waves -->
+  <path d="M0,310 Q50,305 100,310 Q150,315 200,310 Q250,305 300,310 Q350,315 400,310 Q450,305 500,310 Q550,315 600,310 Q650,305 700,310 Q750,315 800,310" fill="none" stroke="#5EB2FB" stroke-width="1.5" opacity="0.7"/>
+  <path d="M0,320 Q50,315 100,320 Q150,325 200,320 Q250,315 300,320 Q350,325 400,320 Q450,315 500,320 Q550,325 600,320 Q650,315 700,320 Q750,325 800,320" fill="none" stroke="#5EB2FB" stroke-width="1.5" opacity="0.7"/>
+  <path d="M0,330 Q50,325 100,330 Q150,335 200,330 Q250,325 300,330 Q350,335 400,330 Q450,325 500,330 Q550,335 600,330 Q650,325 700,330 Q750,335 800,330" fill="none" stroke="#5EB2FB" stroke-width="1.5" opacity="0.7"/>
+  
+  <!-- Boats -->
+  <g transform="translate(200, 350)">
+    <path d="M-15,0 L15,0 L10,10 L-10,10 Z" fill="#D2B48C"/>
+    <rect x="-1" y="-15" width="2" height="15" fill="#A0522D"/>
+    <path d="M1,-15 L10,-10 L1,-5 Z" fill="#FFFFFF"/>
+  </g>
+  
+  <g transform="translate(500, 370)">
+    <path d="M-20,0 L20,0 L15,15 L-15,15 Z" fill="#D2B48C"/>
+    <rect x="-1" y="-25" width="2" height="25" fill="#A0522D"/>
+    <path d="M1,-25 L15,-15 L1,-10 Z" fill="#FFFFFF"/>
+  </g>
+  
+  <g transform="translate(700, 340)">
+    <path d="M-10,0 L10,0 L7,7 L-7,7 Z" fill="#D2B48C"/>
+    <rect x="-0.5" y="-10" width="1" height="10" fill="#A0522D"/>
+    <path d="M0.5,-10 L6,-7 L0.5,-4 Z" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Sun reflection on water -->
+  <ellipse cx="600" cy="400" rx="30" ry="10" fill="#FFFFFF" opacity="0.2"/>
+  
+  <!-- Clouds -->
+  <g opacity="0.7">
+    <ellipse cx="100" cy="80" rx="40" ry="20" fill="#FFFFFF"/>
+    <ellipse cx="130" cy="90" rx="30" ry="15" fill="#FFFFFF"/>
+    <ellipse cx="70" cy="90" rx="30" ry="15" fill="#FFFFFF"/>
+    
+    <ellipse cx="600" cy="70" rx="50" ry="25" fill="#FFFFFF"/>
+    <ellipse cx="640" cy="80" rx="35" ry="20" fill="#FFFFFF"/>
+    <ellipse cx="570" cy="80" rx="30" ry="15" fill="#FFFFFF"/>
+  </g>
+</svg>

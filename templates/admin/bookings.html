@@ -1,0 +1,321 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Manage Bookings - Admin Dashboard{% endblock %}
+
+{% block header_title %}Manage Bookings{% endblock %}
+
+{% block content %}
+    <div class="admin-recent" style="margin-bottom: 2rem;">
+        <div class="admin-recent-header">
+            <div class="admin-recent-title">All Bookings</div>
+        </div>
+        
+        <!-- Filter Options -->
+        <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: #f8f9fa; border-radius: 4px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                <div style="flex: 1; min-width: 200px;">
+                    <input type="text" class="form-control table-search" placeholder="Search bookings..." style="width: 100%; padding: 0.5rem;">
+                </div>
+                
+                <div style="flex: 1; min-width: 200px;">
+                    <select class="form-control" style="width: 100%; padding: 0.5rem;">
+                        <option value="">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                
+                <div style="flex: 1; min-width: 200px;">
+                    <select class="form-control" style="width: 100%; padding: 0.5rem;">
+                        <option value="">All Packages</option>
+                        <option value="Bali">Bali Paradise</option>
+                        <option value="Paris">Paris Explorer</option>
+                        <option value="Tokyo">Tokyo Adventure</option>
+                        <option value="Santorini">Santorini Getaway</option>
+                        <option value="New York">New York City Tour</option>
+                    </select>
+                </div>
+                
+                <div style="flex: 1; min-width: 200px;">
+                    <select class="form-control" style="width: 100%; padding: 0.5rem;">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="upcoming">Upcoming Travel Date</option>
+                        <option value="amount">Amount: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Package</th>
+                        <th>Booking Date</th>
+                        <th>Travel Date</th>
+                        <th>Travelers</th>
+                        <th>Amount</th>
+                        <th>Payment Status</th>
+                        <th>Booking Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if bookings %}
+                        {% for booking in bookings %}
+                            <tr>
+                                <td>{{ booking.id }}</td>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="width: 30px; height: 30px; border-radius: 50%; background-color: #0066cc; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; margin-right: 0.5rem;">
+                                            {{ booking.user.username[0].upper() }}
+                                        </div>
+                                        <div>{{ booking.user.username }}</div>
+                                    </div>
+                                </td>
+                                <td>{{ booking.package.name }}</td>
+                                <td>{{ booking.booking_date.strftime('%d %b, %Y') }}</td>
+                                <td>{{ booking.travel_date.strftime('%d %b, %Y') }}</td>
+                                <td>{{ booking.num_travelers }}</td>
+                                <td>₹{{ booking.total_price|int }}</td>
+                                <td>
+                                    {% if booking.payment %}
+                                        <span class="status {% if booking.payment.status == 'Completed' %}status-confirmed{% elif booking.payment.status == 'Pending' %}status-pending{% else %}status-cancelled{% endif %}">
+                                            {{ booking.payment.status }}
+                                        </span>
+                                    {% else %}
+                                        <span class="status status-pending">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="status status-{{ booking.status.lower() }}">
+                                        {{ booking.status }}
+                                    </span>
+                                </td>
+                                <td class="actions">
+                                    <button type="button" class="action-btn" title="View Details" data-toggle="modal" data-target="#bookingModal{{ booking.id }}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    
+                                    <form method="POST" action="{{ url_for('admin.update_booking', booking_id=booking.id) }}" style="display: inline;">
+                                        <select name="status" class="status-dropdown" style="padding: 0.25rem; border-radius: 4px; border: 1px solid #e9ecef;" onchange="this.form.submit()">
+                                            <option value="Pending" {% if booking.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                            <option value="Confirmed" {% if booking.status == 'Confirmed' %}selected{% endif %}>Confirmed</option>
+                                            <option value="Cancelled" {% if booking.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                                            <option value="Completed" {% if booking.status == 'Completed' %}selected{% endif %}>Completed</option>
+                                        </select>
+                                    </form>
+                                </td>
+                            </tr>
+                            
+                            <!-- Booking Details Modal -->
+                            <div id="bookingModal{{ booking.id }}" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; overflow: auto;">
+                                <div class="modal-content" style="background-color: white; margin: 10% auto; padding: 20px; width: 80%; max-width: 800px; border-radius: 8px; position: relative;">
+                                    <span class="close" style="position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+                                    
+                                    <h2 style="margin-top: 0; margin-bottom: 1.5rem;">Booking #{{ booking.id }} Details</h2>
+                                    
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                                        <div>
+                                            <h3 style="margin-top: 0; margin-bottom: 1rem;">Booking Information</h3>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Status:</strong> 
+                                                <span class="status status-{{ booking.status.lower() }}" style="display: inline-block; margin-left: 0.5rem;">
+                                                    {{ booking.status }}
+                                                </span>
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Booking Date:</strong> {{ booking.booking_date.strftime('%d %b, %Y, %H:%M') }}
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Travel Date:</strong> {{ booking.travel_date.strftime('%d %b, %Y') }}
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Number of Travelers:</strong> {{ booking.num_travelers }}
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Total Amount:</strong> ₹{{ booking.total_price|int }}
+                                            </div>
+                                            
+                                            {% if booking.payment %}
+                                                <div style="margin-bottom: 0.5rem;">
+                                                    <strong>Payment Method:</strong> {{ booking.payment.payment_method }}
+                                                </div>
+                                                
+                                                <div style="margin-bottom: 0.5rem;">
+                                                    <strong>Payment Status:</strong> 
+                                                    <span class="status {% if booking.payment.status == 'Completed' %}status-confirmed{% elif booking.payment.status == 'Pending' %}status-pending{% else %}status-cancelled{% endif %}" style="display: inline-block; margin-left: 0.5rem;">
+                                                        {{ booking.payment.status }}
+                                                    </span>
+                                                </div>
+                                                
+                                                <div style="margin-bottom: 0.5rem;">
+                                                    <strong>Transaction ID:</strong> {{ booking.payment.transaction_id }}
+                                                </div>
+                                            {% else %}
+                                                <div style="margin-bottom: 0.5rem;">
+                                                    <strong>Payment Status:</strong> 
+                                                    <span class="status status-pending" style="display: inline-block; margin-left: 0.5rem;">
+                                                        No Payment
+                                                    </span>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div>
+                                            <h3 style="margin-top: 0; margin-bottom: 1rem;">User Information</h3>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Username:</strong> {{ booking.user.username }}
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Name:</strong> {{ booking.user.full_name }}
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Email:</strong> {{ booking.user.email }}
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Phone:</strong> {{ booking.user.phone }}
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Address:</strong> {{ booking.user.address }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h3 style="margin-top: 0; margin-bottom: 1rem;">Package Information</h3>
+                                    
+                                    <div style="display: flex; margin-bottom: 1.5rem;">
+                                        {% if booking.package.image_path %}
+                                            <div style="width: 120px; height: 80px; background-image: url('{{ url_for('static', filename=booking.package.image_path) }}'); background-size: cover; background-position: center; border-radius: 8px; margin-right: 1.5rem;"></div>
+                                        {% else %}
+                                            <div style="width: 120px; height: 80px; background-image: url('https://source.unsplash.com/1600x900/?{{ booking.package.location|urlencode }}'); background-size: cover; background-position: center; border-radius: 8px; margin-right: 1.5rem;"></div>
+                                        {% endif %}
+                                        
+                                        <div>
+                                            <h4 style="margin: 0; margin-bottom: 0.5rem;">{{ booking.package.name }}</h4>
+                                            
+                                            <div style="margin-bottom: 0.25rem;">
+                                                <strong>Location:</strong> {{ booking.package.location }}
+                                            </div>
+                                            
+                                            <div style="margin-bottom: 0.25rem;">
+                                                <strong>Duration:</strong> {{ booking.package.duration }} days
+                                            </div>
+                                            
+                                            <div>
+                                                <strong>Price Per Person:</strong> ₹{{ booking.package.price|int }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {% if booking.special_requests %}
+                                        <div style="margin-bottom: 1.5rem;">
+                                            <h3 style="margin-top: 0; margin-bottom: 1rem;">Special Requests</h3>
+                                            <p style="margin: 0; padding: 1rem; background-color: #f8f9fa; border-radius: 4px;">{{ booking.special_requests }}</p>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                                        <button type="button" class="admin-btn admin-btn-secondary close-modal">Close</button>
+                                        
+                                        <div>
+                                            <form method="POST" action="{{ url_for('admin.update_booking', booking_id=booking.id) }}" style="display: inline;">
+                                                <select name="status" style="padding: 0.5rem; border-radius: 4px; border: 1px solid #e9ecef; margin-right: 0.5rem;">
+                                                    <option value="Pending" {% if booking.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                                    <option value="Booked" {% if booking.status == 'Booked' %}selected{% endif %}>Booked</option>
+                                                    <option value="Cancelled" {% if booking.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                                                    <option value="Completed" {% if booking.status == 'Completed' %}selected{% endif %}>Completed</option>
+                                                </select>
+                                                <button type="submit" class="admin-btn admin-btn-primary">Update Status</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="10" style="text-align: center; padding: 3rem;">
+                                <div style="font-size: 3rem; color: #6c757d; margin-bottom: 1rem;">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <h3>No Bookings Found</h3>
+                                <p>There are no bookings in the system yet.</p>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div style="display: flex; justify-content: center; margin-top: 2rem;">
+        <div style="display: flex; align-items: center;">
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #0066cc; border-radius: 4px; margin-right: 0.5rem; background-color: #0066cc; color: white; text-decoration: none;">1</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">2</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">3</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; color: #6c757d; text-decoration: none;">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modals = document.querySelectorAll('.modal');
+            const modalButtons = document.querySelectorAll('[data-toggle="modal"]');
+            const closeButtons = document.querySelectorAll('.close, .close-modal');
+            
+            modalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const modal = document.querySelector(targetId);
+                    if (modal) {
+                        modal.style.display = 'block';
+                    }
+                });
+            });
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+            
+            window.addEventListener('click', function(event) {
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

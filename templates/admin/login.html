@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Tour Package Management</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/1600x900/?travel,mountains');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-title h2 {
+            color: #0066cc;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+        
+        .btn-primary {
+            display: block;
+            width: 100%;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 0.85rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .back-link a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .credential-box {
+            background-color: #f8f9fa;
+            border: 1px dashed #ced4da;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .credential-box h3 {
+            color: #0066cc;
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .credential-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .credential-label {
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .credential-value {
+            font-weight: 700;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Tour Package Logo" height="60">
+        </div>
+        
+        <div class="login-title">
+            <h2>Admin Portal</h2>
+            <p>Secure admin access for tour package management</p>
+        </div>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="{{ url_for('admin.admin_login') }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control", placeholder="Enter admin username") }}
+                {% if form.username.errors %}
+                    <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                        {% for error in form.username.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control", placeholder="Enter admin password") }}
+                {% if form.password.errors %}
+                    <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                        {% for error in form.password.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.submit(class="btn-primary") }}
+            </div>
+        </form>
+        
+        <div class="credential-box">
+            <h3>Admin Access Credentials</h3>
+            <div class="credential-item">
+                <span class="credential-label">Username:</span>
+                <span class="credential-value">admin</span>
+            </div>
+            <div class="credential-item">
+                <span class="credential-label">Password:</span>
+                <span class="credential-value">admin123</span>
+            </div>
+            <p style="margin-top: 1rem; margin-bottom: 0; font-size: 0.85rem; color: #6c757d;">
+                Use these credentials for demo purposes only
+            </p>
+        </div>
+        
+        <div class="back-link">
+            <a href="{{ url_for('main.index') }}"><i class="fas fa-arrow-left"></i> Back to Main Website</a>
+        </div>
+    </div>
+</body>
+</html>

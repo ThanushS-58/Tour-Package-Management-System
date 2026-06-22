@@ -1,0 +1,249 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Manage Users - Admin Dashboard{% endblock %}
+
+{% block header_title %}Manage Users{% endblock %}
+
+{% block content %}
+    <div class="admin-recent" style="margin-bottom: 2rem;">
+        <div class="admin-recent-header">
+            <div class="admin-recent-title">All Users</div>
+        </div>
+        
+        <!-- Filter Options -->
+        <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: #f8f9fa; border-radius: 4px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                <div style="flex: 1; min-width: 200px;">
+                    <input type="text" class="form-control table-search" placeholder="Search users..." style="width: 100%; padding: 0.5rem;">
+                </div>
+                
+                <div style="flex: 1; min-width: 200px;">
+                    <select class="form-control" style="width: 100%; padding: 0.5rem;">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="name_asc">Name: A to Z</option>
+                        <option value="name_desc">Name: Z to A</option>
+                        <option value="bookings">Most Bookings</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Bookings</th>
+                        <th>Joined Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if users %}
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #0066cc; color: white; display: flex; justify-content: center; align-items: center; font-size: 1rem; margin-right: 0.75rem;">
+                                            {{ user.username[0].upper() }}
+                                        </div>
+                                        <div>{{ user.username }}</div>
+                                    </div>
+                                </td>
+                                <td>{{ user.full_name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.bookings.count() }}</td>
+                                <td>{{ user.created_at.strftime('%d %b, %Y') }}</td>
+                                <td class="actions">
+                                    <button type="button" class="action-btn" title="View Details" data-toggle="modal" data-target="#userModal{{ user.id }}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    
+                                    <button type="button" class="action-btn edit" title="Edit User">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            
+                            <!-- User Details Modal -->
+                            <div id="userModal{{ user.id }}" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; overflow: auto;">
+                                <div class="modal-content" style="background-color: white; margin: 10% auto; padding: 20px; width: 80%; max-width: 800px; border-radius: 8px; position: relative;">
+                                    <span class="close" style="position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+                                    
+                                    <h2 style="margin-top: 0; margin-bottom: 1.5rem;">User Details</h2>
+                                    
+                                    <div style="display: flex; margin-bottom: 2rem;">
+                                        <div style="width: 100px; height: 100px; border-radius: 50%; background-color: #0066cc; color: white; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; margin-right: 2rem;">
+                                            {{ user.username[0].upper() }}
+                                        </div>
+                                        
+                                        <div>
+                                            <h3 style="margin: 0; margin-bottom: 0.5rem;">{{ user.full_name }}</h3>
+                                            <p style="margin: 0; color: #6c757d;">Member since {{ user.created_at.strftime('%b %Y') }}</p>
+                                            
+                                            <div style="margin-top: 1rem;">
+                                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                                    <i class="fas fa-user" style="width: 20px; color: #0066cc; margin-right: 0.5rem;"></i>
+                                                    <span>{{ user.username }}</span>
+                                                </div>
+                                                
+                                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                                    <i class="fas fa-envelope" style="width: 20px; color: #0066cc; margin-right: 0.5rem;"></i>
+                                                    <span>{{ user.email }}</span>
+                                                </div>
+                                                
+                                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                                    <i class="fas fa-phone" style="width: 20px; color: #0066cc; margin-right: 0.5rem;"></i>
+                                                    <span>{{ user.phone }}</span>
+                                                </div>
+                                                
+                                                <div style="display: flex; align-items: flex-start; margin-bottom: 0.5rem;">
+                                                    <i class="fas fa-map-marker-alt" style="width: 20px; color: #0066cc; margin-right: 0.5rem; margin-top: 0.25rem;"></i>
+                                                    <span>{{ user.address }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h3 style="margin-top: 0; margin-bottom: 1rem;">Booking History</h3>
+                                    
+                                    {% if user.bookings.count() > 0 %}
+                                        <div style="overflow-x: auto;">
+                                            <table class="admin-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Package</th>
+                                                        <th>Travel Date</th>
+                                                        <th>Amount</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for booking in user.bookings %}
+                                                        <tr>
+                                                            <td>{{ booking.id }}</td>
+                                                            <td>{{ booking.package.name }}</td>
+                                                            <td>{{ booking.travel_date.strftime('%d %b, %Y') }}</td>
+                                                            <td>₹{{ booking.total_price|int }}</td>
+                                                            <td>
+                                                                <span class="status status-{{ booking.status.lower() }}">
+                                                                    {{ booking.status }}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% else %}
+                                        <p style="text-align: center; padding: 2rem; background-color: #f8f9fa; border-radius: 4px; margin: 0;">
+                                            <i class="fas fa-calendar-times" style="font-size: 2rem; color: #6c757d; margin-bottom: 1rem; display: block;"></i>
+                                            No bookings found for this user.
+                                        </p>
+                                    {% endif %}
+                                    
+                                    <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                                        <button type="button" class="admin-btn admin-btn-secondary close-modal">Close</button>
+                                        <button type="button" class="admin-btn admin-btn-primary">Edit User</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 3rem;">
+                                <div style="font-size: 3rem; color: #6c757d; margin-bottom: 1rem;">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h3>No Users Found</h3>
+                                <p>There are no registered users in the system yet.</p>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div style="display: flex; justify-content: center; margin-top: 2rem;">
+        <div style="display: flex; align-items: center;">
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #0066cc; border-radius: 4px; margin-right: 0.5rem; background-color: #0066cc; color: white; text-decoration: none;">1</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">2</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; margin-right: 0.5rem; color: #6c757d; text-decoration: none;">3</a>
+            
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid #e9ecef; border-radius: 4px; color: #6c757d; text-decoration: none;">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modals = document.querySelectorAll('.modal');
+            const modalButtons = document.querySelectorAll('[data-toggle="modal"]');
+            const closeButtons = document.querySelectorAll('.close, .close-modal');
+            
+            modalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const modal = document.querySelector(targetId);
+                    if (modal) {
+                        modal.style.display = 'block';
+                    }
+                });
+            });
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+            
+            window.addEventListener('click', function(event) {
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Table search functionality
+            const searchInput = document.querySelector('.table-search');
+            const tableRows = document.querySelectorAll('.admin-table tbody tr');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase();
+                    
+                    tableRows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        if (text.includes(query)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+{% endblock %}

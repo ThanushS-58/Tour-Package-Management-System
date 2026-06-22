@@ -1,0 +1,218 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Add New Package - Admin Dashboard{% endblock %}
+
+{% block header_title %}Add New Tour Package{% endblock %}
+
+{% block content %}
+    <div class="admin-form">
+        <form method="POST" action="{{ url_for('admin.add_package') }}" enctype="multipart/form-data" class="package-form">
+            {{ form.hidden_tag() }}
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div>
+                    <h3 style="margin-top: 0; margin-bottom: 1.5rem;">Package Details</h3>
+
+                    <div class="admin-form-group">
+                        {{ form.name.label(class="admin-form-label") }}
+                        {{ form.name(class="admin-form-control", placeholder="Enter package name") }}
+                        {% if form.name.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="admin-form-group">
+                        {{ form.description.label(class="admin-form-label") }}
+                        {{ form.description(class="admin-form-control", rows=4, placeholder="Enter package description") }}
+                        {% if form.description.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="admin-form-group">
+                        {{ form.location.label(class="admin-form-label") }}
+                        {{ form.location(class="admin-form-control", placeholder="Enter package location") }}
+                        {% if form.location.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.location.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="admin-form-group">
+                            {{ form.price.label(class="admin-form-label") }}
+                            {{ form.price(class="admin-form-control", placeholder="Enter price", type="number") }}
+                            {% if form.price.errors %}
+                                <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                    {% for error in form.price.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="admin-form-group">
+                            {{ form.duration.label(class="admin-form-label") }}
+                            {{ form.duration(class="admin-form-control", placeholder="Enter duration in days", type="number") }}
+                            {% if form.duration.errors %}
+                                <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                    {% for error in form.duration.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        {{ form.available_slots.label(class="admin-form-label") }}
+                        {{ form.available_slots(class="admin-form-control", placeholder="Enter available slots", type="number") }}
+                        {% if form.available_slots.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.available_slots.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="margin-top: 0; margin-bottom: 1.5rem;">Package Image & Settings</h3>
+
+                    <div class="admin-form-group">
+                        <div class="image-upload-container" id="imageUploadContainer">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: #0066cc;"></i>
+                            <p>Drag and drop an image here or click to select</p>
+                            {{ form.image(class="admin-form-control", style="display: none;", id="packageImage") }}
+                            <div class="image-preview" id="imagePreview" style="display: none;">
+                                <img src="" alt="Preview" id="previewImg">
+                            </div>
+                        </div>
+                        <script>
+                            const container = document.getElementById('imageUploadContainer');
+                            const input = document.getElementById('packageImage');
+                            const preview = document.getElementById('imagePreview');
+                            const previewImg = document.getElementById('previewImg');
+
+                            container.addEventListener('click', () => input.click());
+                            container.addEventListener('dragover', (e) => {
+                                e.preventDefault();
+                                container.style.borderColor = '#0066cc';
+                            });
+                            container.addEventListener('dragleave', () => {
+                                container.style.borderColor = '#ddd';
+                            });
+                            container.addEventListener('drop', (e) => {
+                                e.preventDefault();
+                                container.style.borderColor = '#ddd';
+                                input.files = e.dataTransfer.files;
+                                showPreview(e.dataTransfer.files[0]);
+                            });
+                            input.addEventListener('change', (e) => {
+                                if (e.target.files.length) {
+                                    showPreview(e.target.files[0]);
+                                }
+                            });
+
+                            function showPreview(file) {
+                                if (file) {
+                                    const reader = new FileReader();
+                                    reader.onload = (e) => {
+                                        previewImg.src = e.target.result;
+                                        preview.style.display = 'block';
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+                            }
+                        </script>
+                        {% if form.image.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.image.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                            Supported formats: JPG, JPEG, PNG, SVG. Max size: 5MB.
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <div style="display: flex; align-items: center;">
+                            {{ form.is_featured(style="margin-right: 0.5rem;") }}
+                            {{ form.is_featured.label }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <h3 style="margin-top: 0; margin-bottom: 1.5rem;">Package Itinerary & Details</h3>
+
+                <div class="admin-form-group">
+                    {{ form.itinerary.label(class="admin-form-label") }}
+                    {{ form.itinerary(class="admin-form-control", rows=6, placeholder="Enter detailed itinerary (day by day)") }}
+                    {% if form.itinerary.errors %}
+                        <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                            {% for error in form.itinerary.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                        Format: Day 1: Description, Day 2: Description, etc.
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="admin-form-group">
+                        {{ form.includes.label(class="admin-form-label") }}
+                        {{ form.includes(class="admin-form-control", rows=4, placeholder="Enter what's included in the package") }}
+                        {% if form.includes.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.includes.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                            Enter each item on a new line.
+                        </div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        {{ form.excludes.label(class="admin-form-label") }}
+                        {{ form.excludes(class="admin-form-control", rows=4, placeholder="Enter what's not included in the package") }}
+                        {% if form.excludes.errors %}
+                            <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                {% for error in form.excludes.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                            Enter each item on a new line.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; justify-content: space-between;">
+                <a href="{{ url_for('admin.admin_packages') }}" class="admin-btn admin-btn-secondary">Cancel</a>
+                {{ form.submit(class="admin-btn admin-btn-primary") }}
+            </div>
+        </form>
+    </div>
+{% endblock %}

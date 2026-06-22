@@ -1,0 +1,65 @@
+
+{% extends 'admin/base.html' %}
+
+{% block title %}{{ package.name }} - Admin View{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0">Package Details</h2>
+        <a href="{{ url_for('edit_package', package_id=package.id) }}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit Package
+        </a>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3>{{ package.name }}</h3>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <p><strong>Location:</strong> {{ package.location }}</p>
+                    <p><strong>Duration:</strong> {{ package.duration }} days</p>
+                    <p><strong>Price:</strong> ₹{{ package.price|int }}</p>
+                    <p><strong>Available Slots:</strong> {{ package.available_slots }}</p>
+                </div>
+                <div class="col-md-6">
+                    {% if package.image_path %}
+                        <img src="{{ url_for('static', filename=package.image_path) }}" alt="{{ package.name }}" class="img-fluid rounded">
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <h4>Description</h4>
+                <p>{{ package.description }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Packages Section -->
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Similar Packages</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for similar in similar_packages %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            {% if similar.image_path %}
+                                <img src="{{ url_for('static', filename=similar.image_path) }}" class="card-img-top" alt="{{ similar.name }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ similar.name }}</h5>
+                                <p class="card-text">{{ similar.description|truncate(100) }}</p>
+                                <p><strong>Price:</strong> ₹{{ similar.price|int }}</p>
+                                <a href="{{ url_for('admin_package_detail', package_id=similar.id) }}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Sky background -->
+  <rect width="800" height="500" fill="#F2D6BD"/>
+  
+  <!-- Sunset gradient -->
+  <defs>
+    <linearGradient id="sunset" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF7F50;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F2D6BD;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="250" fill="url(#sunset)"/>
+  
+  <!-- City silhouette -->
+  <path d="M0,350 L50,330 L100,350 L150,340 L200,320 L250,340 L300,330 L350,350 L400,330 L450,340 L500,320 L550,330 L600,350 L650,340 L700,330 L750,350 L800,340 L800,500 L0,500 Z" fill="#2F4F4F"/>
+  
+  <!-- Seine River -->
+  <path d="M0,380 C100,370 200,390 300,370 C400,350 500,380 600,360 C700,350 800,370 800,370 L800,400 C700,390 600,410 500,390 C400,370 300,400 200,380 C100,370 0,390 0,390 Z" fill="#6BAED6"/>
+  
+  <!-- Eiffel Tower -->
+  <g transform="translate(400, 250)">
+    <!-- Tower base -->
+    <path d="M-60,230 L-50,210 L-40,230 L-20,230 L-10,210 L0,230 Z" fill="#555555"/>
+    <path d="M60,230 L50,210 L40,230 L20,230 L10,210 L0,230 Z" fill="#555555"/>
+    
+    <!-- Tower structure -->
+    <path d="M-60,230 L-30,100 M60,230 L30,100" stroke="#555555" stroke-width="5" fill="none"/>
+    <path d="M-30,100 L-15,0 M30,100 L15,0" stroke="#555555" stroke-width="3" fill="none"/>
+    <path d="M-15,0 L0,-30 L15,0" stroke="#555555" stroke-width="2" fill="none"/>
+    
+    <!-- Cross beams -->
+    <path d="M-60,230 L60,230" stroke="#555555" stroke-width="5" fill="none"/>
+    <path d="M-40,180 L40,180" stroke="#555555" stroke-width="4" fill="none"/>
+    <path d="M-30,100 L30,100" stroke="#555555" stroke-width="3" fill="none"/>
+    <path d="M-15,50 L15,50" stroke="#555555" stroke-width="2" fill="none"/>
+    <path d="M-15,0 L15,0" stroke="#555555" stroke-width="2" fill="none"/>
+    
+    <!-- Tower details -->
+    <circle cx="0" cy="-25" r="3" fill="#F7D358"/>
+  </g>
+  
+  <!-- Notre Dame (simplified) -->
+  <g transform="translate(200, 300)">
+    <rect x="-40" y="0" width="80" height="60" fill="#A9A9A9"/>
+    <rect x="-35" y="-20" width="70" height="20" fill="#A9A9A9"/>
+    <path d="M-35,-20 L0,-40 L35,-20" fill="#A9A9A9"/>
+    <rect x="-5" y="-50" width="10" height="10" fill="#A9A9A9"/>
+    <rect x="-30" y="15" width="15" height="25" fill="#696969"/>
+    <rect x="15" y="15" width="15" height="25" fill="#696969"/>
+  </g>
+  
+  <!-- Arc de Triomphe (simplified) -->
+  <g transform="translate(600, 310)">
+    <rect x="-25" y="0" width="50" height="50" fill="#D3D3D3"/>
+    <path d="M-25,0 L-15,0 L-15,30 L-25,40 Z" fill="#A9A9A9"/>
+    <path d="M25,0 L15,0 L15,30 L25,40 Z" fill="#A9A9A9"/>
+    <path d="M-15,0 L15,0 L15,30 L-15,30 Z" fill="#808080"/>
+    <path d="M-25,0 L25,0 L25,-10 L-25,-10 Z" fill="#A9A9A9"/>
+  </g>
+  
+  <!-- Buildings along Seine -->
+  <g>
+    <!-- Left Bank Buildings -->
+    <rect x="50" y="320" width="30" height="60" fill="#D3D3D3"/>
+    <rect x="80" y="330" width="25" height="50" fill="#A9A9A9"/>
+    <rect x="105" y="310" width="35" height="70" fill="#C0C0C0"/>
+    <rect x="140" y="330" width="20" height="50" fill="#D3D3D3"/>
+    
+    <!-- Right Bank Buildings -->
+    <rect x="550" y="320" width="30" height="60" fill="#D3D3D3"/>
+    <rect x="580" y="330" width="25" height="50" fill="#A9A9A9"/>
+    <rect x="605" y="310" width="35" height="70" fill="#C0C0C0"/>
+    <rect x="640" y="330" width="20" height="50" fill="#D3D3D3"/>
+    
+    <!-- Windows (simplified) -->
+    <rect x="55" y="330" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="65" y="330" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="55" y="345" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="65" y="345" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="55" y="360" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="65" y="360" width="5" height="5" fill="#FFF8DC"/>
+    
+    <rect x="555" y="330" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="565" y="330" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="555" y="345" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="565" y="345" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="555" y="360" width="5" height="5" fill="#FFF8DC"/>
+    <rect x="565" y="360" width="5" height="5" fill="#FFF8DC"/>
+  </g>
+  
+  <!-- Street lamps -->
+  <g>
+    <path d="M150,380 L150,360 L145,355 L155,355 Z" fill="#A9A9A9"/>
+    <circle cx="150" cy="353" r="3" fill="#FFFFE0"/>
+    
+    <path d="M300,380 L300,360 L295,355 L305,355 Z" fill="#A9A9A9"/>
+    <circle cx="300" cy="353" r="3" fill="#FFFFE0"/>
+    
+    <path d="M450,380 L450,360 L445,355 L455,355 Z" fill="#A9A9A9"/>
+    <circle cx="450" cy="353" r="3" fill="#FFFFE0"/>
+    
+    <path d="M600,380 L600,360 L595,355 L605,355 Z" fill="#A9A9A9"/>
+    <circle cx="600" cy="353" r="3" fill="#FFFFE0"/>
+  </g>
+  
+  <!-- Stars in the sky -->
+  <g>
+    <circle cx="100" cy="50" r="1" fill="white"/>
+    <circle cx="200" cy="80" r="1.5" fill="white"/>
+    <circle cx="300" cy="40" r="1" fill="white"/>
+    <circle cx="500" cy="70" r="1.5" fill="white"/>
+    <circle cx="600" cy="30" r="1" fill="white"/>
+    <circle cx="700" cy="60" r="1.5" fill="white"/>
+  </g>
+  
+  <!-- Boat on Seine -->
+  <g transform="translate(350, 380)">
+    <path d="M-20,0 C-15,-5 15,-5 20,0 L15,10 L-15,10 Z" fill="#8B4513"/>
+    <rect x="-2" y="-15" width="4" height="15" fill="#A52A2A"/>
+    <path d="M2,-15 L15,-10 L2,-5 Z" fill="#DCDCDC"/>
+  </g>
+</svg>

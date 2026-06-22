@@ -1,0 +1,198 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Admin Profile - Admin Dashboard{% endblock %}
+
+{% block header_title %}Admin Profile{% endblock %}
+
+{% block content %}
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+        <div>
+            <div class="admin-recent" style="margin-bottom: 2rem;">
+                <div class="admin-profile">
+                    <div class="admin-profile-image">
+                        {{ admin.username[0].upper() }}
+                    </div>
+                    
+                    <div class="admin-profile-info">
+                        <div class="admin-profile-name">{{ admin.full_name }}</div>
+                        <div class="admin-profile-role">Administrator</div>
+                        
+                        <div>
+                            <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                <i class="fas fa-user" style="width: 20px; color: #0066cc; margin-right: 0.5rem;"></i>
+                                <span>{{ admin.username }}</span>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                <i class="fas fa-envelope" style="width: 20px; color: #0066cc; margin-right: 0.5rem;"></i>
+                                <span>{{ admin.email }}</span>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center;">
+                                <i class="fas fa-calendar-alt" style="width: 20px; color: #0066cc; margin-right: 0.5rem;"></i>
+                                <span>Joined on {{ admin.created_at.strftime('%d %b, %Y') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <button class="admin-btn admin-btn-primary" style="width: 100%;">Edit Profile</button>
+                </div>
+            </div>
+            
+            <div class="admin-recent">
+                <div class="admin-recent-header">
+                    <div class="admin-recent-title">Account Security</div>
+                </div>
+                
+                <div style="padding: 1.5rem;">
+                    <button class="admin-btn admin-btn-primary" style="width: 100%; margin-bottom: 1rem;">Change Password</button>
+                    <button class="admin-btn admin-btn-secondary" style="width: 100%;">Enable Two-Factor Authentication</button>
+                    
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e9ecef;">
+                        <h4 style="margin-top: 0; margin-bottom: 1rem;">Last Login Activity</h4>
+                        
+                        <div style="margin-bottom: 0.5rem;">
+                            <strong>Last Login:</strong> Today, 08:45 AM
+                        </div>
+                        
+                        <div style="margin-bottom: 0.5rem;">
+                            <strong>IP Address:</strong> 192.168.1.1
+                        </div>
+                        
+                        <div>
+                            <strong>Location:</strong> New Delhi, India
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="admin-recent" style="margin-bottom: 2rem;">
+                <div class="admin-recent-header">
+                    <div class="admin-recent-title">Activity Overview</div>
+                </div>
+                
+                <div style="padding: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #0066cc; margin-bottom: 0.5rem;">{{ admin.bookings.count() }}</div>
+                            <div>Bookings Managed</div>
+                        </div>
+                        
+                        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #0066cc; margin-bottom: 0.5rem;">5</div>
+                            <div>Packages Created</div>
+                        </div>
+                        
+                        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #0066cc; margin-bottom: 0.5rem;">12</div>
+                            <div>Days Active</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-top: 0; margin-bottom: 1rem;">Recent Activities</h4>
+                    
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <div style="display: flex; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e9ecef;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; margin-right: 1rem;">
+                                <i class="fas fa-edit" style="color: #0066cc;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 500;">Updated package "Bali Paradise"</div>
+                                <div style="font-size: 0.85rem; color: #6c757d;">Today, 10:30 AM</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e9ecef;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; margin-right: 1rem;">
+                                <i class="fas fa-check-circle" style="color: #28a745;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 500;">Confirmed booking #123</div>
+                                <div style="font-size: 0.85rem; color: #6c757d;">Yesterday, 3:45 PM</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e9ecef;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; margin-right: 1rem;">
+                                <i class="fas fa-plus" style="color: #0066cc;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 500;">Added new package "Tokyo Adventure"</div>
+                                <div style="font-size: 0.85rem; color: #6c757d;">Yesterday, 1:20 PM</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e9ecef;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; margin-right: 1rem;">
+                                <i class="fas fa-times-circle" style="color: #dc3545;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 500;">Cancelled booking #120</div>
+                                <div style="font-size: 0.85rem; color: #6c757d;">2 days ago, 5:10 PM</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; margin-right: 1rem;">
+                                <i class="fas fa-sign-in-alt" style="color: #0066cc;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 500;">Logged in to the system</div>
+                                <div style="font-size: 0.85rem; color: #6c757d;">2 days ago, 9:00 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-recent">
+                <div class="admin-recent-header">
+                    <div class="admin-recent-title">System Settings</div>
+                </div>
+                
+                <div style="padding: 1.5rem;">
+                    <h4 style="margin-top: 0; margin-bottom: 1rem;">General Settings</h4>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div class="admin-form-group">
+                            <div class="admin-form-label">Website Name</div>
+                            <input type="text" class="admin-form-control" value="Tour Package Management">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div class="admin-form-group">
+                            <div class="admin-form-label">Contact Email</div>
+                            <input type="email" class="admin-form-control" value="info@tourpackages.com">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div class="admin-form-group">
+                            <div class="admin-form-label">Contact Phone</div>
+                            <input type="text" class="admin-form-control" value="+1 (555) 123-4567">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div class="admin-form-group">
+                            <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                <input type="checkbox" id="maintenance" style="margin-right: 0.5rem;">
+                                <label for="maintenance">Enable Maintenance Mode</label>
+                            </div>
+                            <div style="font-size: 0.85rem; color: #6c757d;">When enabled, the website will display a maintenance message to visitors.</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <button class="admin-btn admin-btn-primary">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

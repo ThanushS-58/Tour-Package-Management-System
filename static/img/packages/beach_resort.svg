@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Sky -->
+  <rect width="800" height="200" fill="#87CEEB"/>
+  
+  <!-- Sun -->
+  <circle cx="700" cy="80" r="60" fill="#FDB813"/>
+  
+  <!-- Ocean -->
+  <rect y="200" width="800" height="150" fill="#1E90FF"/>
+  
+  <!-- Beach -->
+  <path d="M0,350 L800,350 L800,500 L0,500 Z" fill="#F0E68C"/>
+  
+  <!-- Palm Tree 1 -->
+  <rect x="100" y="300" width="15" height="80" fill="#8B4513"/>
+  <path d="M108,300 Q140,250 170,290 Q130,290 108,300" fill="#228B22"/>
+  <path d="M108,300 Q80,250 50,280 Q90,290 108,300" fill="#228B22"/>
+  <path d="M108,280 Q108,230 130,260 Q115,270 108,280" fill="#228B22"/>
+  
+  <!-- Palm Tree 2 -->
+  <rect x="650" y="320" width="15" height="60" fill="#8B4513"/>
+  <path d="M658,320 Q690,280 710,310 Q675,310 658,320" fill="#228B22"/>
+  <path d="M658,320 Q630,280 610,300 Q640,310 658,320" fill="#228B22"/>
+  <path d="M658,300 Q658,260 680,280 Q665,290 658,300" fill="#228B22"/>
+  
+  <!-- Beach Umbrella -->
+  <rect x="400" y="370" width="8" height="70" fill="#A9A9A9"/>
+  <path d="M400,370 Q350,330 300,370 Q350,340 400,370" fill="#FF6347"/>
+  <path d="M400,370 Q450,330 500,370 Q450,340 400,370" fill="#FF6347"/>
+  
+  <!-- Beach Chair 1 -->
+  <rect x="350" y="410" width="40" height="10" fill="#CD853F" transform="rotate(10, 350, 410)"/>
+  <rect x="340" y="420" width="60" height="5" fill="#CD853F" transform="rotate(10, 340, 420)"/>
+  <rect x="330" y="430" width="80" height="5" fill="#CD853F" transform="rotate(10, 330, 430)"/>
+  
+  <!-- Beach Chair 2 -->
+  <rect x="450" y="410" width="40" height="10" fill="#CD853F" transform="rotate(-10, 450, 410)"/>
+  <rect x="440" y="420" width="60" height="5" fill="#CD853F" transform="rotate(-10, 440, 420)"/>
+  <rect x="430" y="430" width="80" height="5" fill="#CD853F" transform="rotate(-10, 430, 430)"/>
+  
+  <!-- Waves -->
+  <path d="M0,320 Q100,300 200,320 Q300,340 400,320 Q500,300 600,320 Q700,340 800,320" fill="none" stroke="#87CEFA" stroke-width="5"/>
+  <path d="M0,340 Q100,320 200,340 Q300,360 400,340 Q500,320 600,340 Q700,360 800,340" fill="none" stroke="#87CEFA" stroke-width="5"/>
+  
+  <!-- Small Boat -->
+  <path d="M550,280 L580,280 L590,290 L540,290 Z" fill="#8B4513"/>
+  <rect x="560" y="260" width="5" height="20" fill="#8B4513"/>
+  <path d="M565,260 L585,270 L565,280 Z" fill="#FFFFFF"/>
+</svg>

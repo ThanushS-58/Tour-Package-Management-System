@@ -1,0 +1,163 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="admin-content">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <h1>Update Payment Status</h1>
+                <p class="text-muted">Payment #{{ payment.id }} for Booking #{{ payment.booking.id }}</p>
+            </div>
+            <div class="col-auto">
+                <a href="{{ url_for('admin_payments') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Payments
+                </a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Payment details card -->
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Payment Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Payment ID:</div>
+                            <div class="col-8">{{ payment.id }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Amount:</div>
+                            <div class="col-8">₹{{ "%.2f"|format(payment.amount) }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Method:</div>
+                            <div class="col-8">{{ payment.payment_method }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Transaction ID:</div>
+                            <div class="col-8">{{ payment.transaction_id }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Payment Date:</div>
+                            <div class="col-8">{{ payment.payment_date.strftime('%d %b, %Y %H:%M') }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Current Status:</div>
+                            <div class="col-8">
+                                {% if payment.status == 'Completed' %}
+                                <span class="badge bg-success">Completed</span>
+                                {% elif payment.status == 'Pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                                {% else %}
+                                <span class="badge bg-danger">Failed</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Booking details card -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Booking Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Booking ID:</div>
+                            <div class="col-8">{{ payment.booking.id }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Package:</div>
+                            <div class="col-8">{{ payment.booking.package.name }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Travel Date:</div>
+                            <div class="col-8">{{ payment.booking.travel_date.strftime('%d %b, %Y') }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Travelers:</div>
+                            <div class="col-8">{{ payment.booking.num_travelers }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Status:</div>
+                            <div class="col-8">
+                                {% if payment.booking.status == 'Confirmed' %}
+                                <span class="badge bg-success">Confirmed</span>
+                                {% elif payment.booking.status == 'Pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                                {% elif payment.booking.status == 'Cancelled' %}
+                                <span class="badge bg-danger">Cancelled</span>
+                                {% else %}
+                                <span class="badge bg-info">{{ payment.booking.status }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Customer:</div>
+                            <div class="col-8">{{ payment.booking.user.full_name }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 text-muted">Email:</div>
+                            <div class="col-8">{{ payment.booking.user.email }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Update form card -->
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Update Payment Status</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info mb-4">
+                            <i class="fas fa-info-circle me-2"></i> Updating the payment status will also update the associated booking status:
+                            <ul class="mb-0 mt-2">
+                                <li><strong>Completed</strong> - Booking will be marked as <strong>Confirmed</strong></li>
+                                <li><strong>Failed</strong> - Booking will be marked as <strong>Cancelled</strong></li>
+                                <li><strong>Pending</strong> - Booking will remain as <strong>Pending</strong></li>
+                            </ul>
+                        </div>
+                        
+                        <form method="post">
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="mb-3">
+                                {{ form.status.label(class="form-label") }}
+                                {{ form.status(class="form-select") }}
+                                {% if form.status.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.status.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.notes.label(class="form-label") }}
+                                {{ form.notes(class="form-control", rows=3, placeholder="Add any internal notes about this payment") }}
+                                {% if form.notes.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.notes.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-4">
+                                <a href="{{ url_for('admin_payments') }}" class="btn btn-secondary me-2">Cancel</a>
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

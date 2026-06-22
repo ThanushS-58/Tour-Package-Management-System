@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+
+{% block title %}Book {{ package.name }} - Tour Package Management{% endblock %}
+
+{% block content %}
+    <section style="padding: 4rem 0; background-color: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Book Your Tour Package</h2>
+                <p>Complete the booking form below to secure your spot on this amazing journey.</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                <div class="booking-form">
+                    <form method="POST" action="{{ url_for('main.booking', package_id=package.id) }}">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="form-group">
+                            {{ form.travel_date.label(class="form-label") }}
+                            <div class="date-input-container">
+                                <div class="date-input-wrapper">
+                                    <i class="fas fa-plane-departure date-icon"></i>
+                                    {{ form.travel_date(class="form-control date-input", type="date") }}
+                                </div>
+                                <div class="date-helper">
+                                    <div class="date-format">
+                                        <span class="date-format-label">Format:</span>
+                                        <span class="date-format-example">Day / Month / Year</span>
+                                    </div>
+                                    <div class="date-info">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>Choose a date at least 7 days from today</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if form.travel_date.errors %}
+                                <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                    {% for error in form.travel_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.return_date.label(class="form-label") }}
+                            <div class="date-input-container">
+                                <div class="date-input-wrapper">
+                                    <i class="fas fa-plane-arrival date-icon"></i>
+                                    {{ form.return_date(class="form-control date-input", type="date") }}
+                                </div>
+                                <div class="date-helper">
+                                    <div class="date-format">
+                                        <span class="date-format-label">Format:</span>
+                                        <span class="date-format-example">Day / Month / Year</span>
+                                    </div>
+                                    <div class="date-info">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>Must be after or same as departure date</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if form.return_date.errors %}
+                                <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                    {% for error in form.return_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <style>
+                            .date-input-container {
+                                margin-bottom: 1rem;
+                            }
+                            
+                            .date-input-wrapper {
+                                position: relative;
+                                margin-bottom: 0.5rem;
+                            }
+                            
+                            .date-icon {
+                                position: absolute;
+                                left: 10px;
+                                top: 50%;
+                                transform: translateY(-50%);
+                                color: #0066cc;
+                                pointer-events: none;
+                            }
+                            
+                            .date-input {
+                                padding-left: 35px;
+                                cursor: pointer;
+                            }
+                            
+                            /* Customize date picker appearance */
+                            .date-input::-webkit-calendar-picker-indicator {
+                                background-color: transparent;
+                                cursor: pointer;
+                                color: #0066cc;
+                                opacity: 1;
+                            }
+                            
+                            .date-helper {
+                                display: flex;
+                                justify-content: space-between;
+                                font-size: 0.8rem;
+                                color: #6c757d;
+                            }
+                            
+                            .date-format {
+                                display: flex;
+                                align-items: center;
+                            }
+                            
+                            .date-format-label {
+                                margin-right: 5px;
+                                font-weight: 500;
+                            }
+                            
+                            .date-info {
+                                display: flex;
+                                align-items: center;
+                            }
+                            
+                            .date-info i {
+                                margin-right: 5px;
+                                color: #0066cc;
+                            }
+                        </style>
+                        
+                        <div class="form-group">
+                            {{ form.num_travelers.label(class="form-label") }}
+                            <div class="custom-number-input">
+                                <button type="button" class="decrement-btn" aria-label="Decrease number of travelers">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                {{ form.num_travelers(class="form-control number-input", type="number", min=1, max=package.available_slots, value=1) }}
+                                <button type="button" class="increment-btn" aria-label="Increase number of travelers">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            {% if form.num_travelers.errors %}
+                                <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                    {% for error in form.num_travelers.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div style="font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                                Maximum {{ package.available_slots }} travelers available
+                            </div>
+                        </div>
+
+                        <style>
+                            .custom-number-input {
+                                display: flex;
+                                align-items: center;
+                                width: 100%;
+                                border: 1px solid #e9ecef;
+                                border-radius: 4px;
+                                overflow: hidden;
+                            }
+                            
+                            .custom-number-input .form-control {
+                                border: none;
+                                text-align: center;
+                                width: 100%;
+                                padding: 0.75rem 0;
+                                margin: 0;
+                                -moz-appearance: textfield;
+                            }
+                            
+                            .custom-number-input .form-control::-webkit-outer-spin-button,
+                            .custom-number-input .form-control::-webkit-inner-spin-button {
+                                -webkit-appearance: none;
+                                margin: 0;
+                            }
+                            
+                            .custom-number-input button {
+                                width: 40px;
+                                height: 40px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                background-color: #f8f9fa;
+                                border: none;
+                                cursor: pointer;
+                                transition: background-color 0.3s ease;
+                            }
+                            
+                            .custom-number-input button:hover {
+                                background-color: #e9ecef;
+                            }
+                            
+                            .custom-number-input button:active {
+                                background-color: #dde0e3;
+                            }
+                            
+                            .custom-number-input .decrement-btn {
+                                border-right: 1px solid #e9ecef;
+                            }
+                            
+                            .custom-number-input .increment-btn {
+                                border-left: 1px solid #e9ecef;
+                            }
+                            
+                            .custom-number-input i {
+                                color: #0066cc;
+                            }
+                        </style>
+                        
+                        <div class="form-group">
+                            {{ form.special_requests.label(class="form-label") }}
+                            {{ form.special_requests(class="form-control", rows=4, placeholder="Any dietary restrictions, accessibility requirements, or special arrangements?") }}
+                            {% if form.special_requests.errors %}
+                                <div class="error-message" style="color: red; font-size: 0.85rem; margin-top: 0.25rem;">
+                                    {% for error in form.special_requests.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div id="booking-summary" style="margin-top: 2rem; padding: 1.5rem; border: 1px solid #e9ecef; border-radius: 8px; margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">Booking Summary</h3>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Package Price:</span>
+                                <span>₹{{ package.price|int }} per person</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Number of Travelers:</span>
+                                <span id="travelers-count">1</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; padding-top: 0.5rem; margin-top: 0.5rem; border-top: 1px solid #e9ecef; font-weight: 700;">
+                                <span>Total Amount:</span>
+                                <span id="total-amount">₹{{ package.price|int }}</span>
+                            </div>
+                        </div>
+                        
+                        {{ form.submit(class="btn-primary", style="width: 100%;") }}
+                    </form>
+                </div>
+                
+                <div>
+                    <div class="card">
+                        {% if package.image_path %}
+                            <div class="card-img" style="background-image: url('{{ url_for('static', filename=package.image_path) }}')"></div>
+                        {% else %}
+                            <div class="card-img" style="background-image: url('https://source.unsplash.com/1600x900/?{{ package.location|urlencode }}')"></div>
+                        {% endif %}
+                        
+                        <div class="card-body">
+                            <h3 class="card-title">{{ package.name }}</h3>
+                            
+                            <div class="card-location">
+                                <i class="fas fa-map-marker-alt"></i> {{ package.location }}
+                            </div>
+                            
+                            <div class="card-duration">
+                                <i class="fas fa-clock"></i> {{ package.duration }} days
+                            </div>
+                            
+                            <div class="card-price">₹{{ package.price|int }}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; background-color: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                        <h3 style="margin-bottom: 1rem;">Booking Information</h3>
+                        
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="display: flex; margin-bottom: 1rem;">
+                                <i class="fas fa-info-circle" style="color: #0066cc; margin-right: 0.75rem; margin-top: 0.25rem;"></i>
+                                <span>Your booking will be confirmed once payment is completed.</span>
+                            </li>
+                            
+                            <li style="display: flex; margin-bottom: 1rem;">
+                                <i class="fas fa-calendar-alt" style="color: #0066cc; margin-right: 0.75rem; margin-top: 0.25rem;"></i>
+                                <span>You can change your travel dates up to 30 days before departure.</span>
+                            </li>
+                            
+                            <li style="display: flex; margin-bottom: 1rem;">
+                                <i class="fas fa-user-shield" style="color: #0066cc; margin-right: 0.75rem; margin-top: 0.25rem;"></i>
+                                <span>Your personal information is encrypted and secure.</span>
+                            </li>
+                            
+                            <li style="display: flex;">
+                                <i class="fas fa-phone-alt" style="color: #0066cc; margin-right: 0.75rem; margin-top: 0.25rem;"></i>
+                                <span>Need help? Contact our support team at +1 (555) 123-4567</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const numTravelersInput = document.getElementById('num_travelers');
+            const travelersCount = document.getElementById('travelers-count');
+            const totalAmount = document.getElementById('total-amount');
+            const packagePrice = {{ package.price }};
+            const maxTravelers = {{ package.available_slots }};
+            const decrementBtn = document.querySelector('.decrement-btn');
+            const incrementBtn = document.querySelector('.increment-btn');
+            
+            // Update booking summary when number of travelers changes
+            function updateSummary() {
+                const numTravelers = parseInt(numTravelersInput.value) || 1;
+                travelersCount.textContent = numTravelers;
+                totalAmount.textContent = '₹' + (packagePrice * numTravelers).toLocaleString();
+                
+                // Disable decrement button if value is 1
+                decrementBtn.disabled = numTravelers <= 1;
+                decrementBtn.style.opacity = numTravelers <= 1 ? '0.5' : '1';
+                
+                // Disable increment button if value reaches max
+                incrementBtn.disabled = numTravelers >= maxTravelers;
+                incrementBtn.style.opacity = numTravelers >= maxTravelers ? '0.5' : '1';
+            }
+            
+            // Initialize on page load
+            updateSummary();
+            
+            // Handle increment button click
+            incrementBtn.addEventListener('click', function() {
+                const currentValue = parseInt(numTravelersInput.value) || 0;
+                if (currentValue < maxTravelers) {
+                    numTravelersInput.value = currentValue + 1;
+                    updateSummary();
+                }
+            });
+            
+            // Handle decrement button click
+            decrementBtn.addEventListener('click', function() {
+                const currentValue = parseInt(numTravelersInput.value) || 2;
+                if (currentValue > 1) {
+                    numTravelersInput.value = currentValue - 1;
+                    updateSummary();
+                }
+            });
+            
+            // Update when manually typing in the input
+            numTravelersInput.addEventListener('input', function() {
+                // Ensure value is within allowed range
+                let value = parseInt(this.value) || 1;
+                if (value < 1) value = 1;
+                if (value > maxTravelers) value = maxTravelers;
+                
+                // Only update if different to avoid cursor jump
+                if (parseInt(this.value) !== value) {
+                    this.value = value;
+                }
+                
+                updateSummary();
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="admin-content">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <h1>Add New Destination</h1>
+                <p class="text-muted">Create a new popular destination for the homepage</p>
+            </div>
+            <div class="col-auto">
+                <a href="{{ url_for('admin.admin_destinations') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Destinations
+                </a>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" id="destinationForm">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                {{ form.name.label(class="form-label") }}
+                                {{ form.name(class="form-control", placeholder="Enter destination name") }}
+                                {% if form.name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.name.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.slogan.label(class="form-label") }}
+                                {{ form.slogan(class="form-control", placeholder="Enter a catchy slogan or tagline") }}
+                                {% if form.slogan.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.slogan.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.description.label(class="form-label") }}
+                                {{ form.description(class="form-control", rows=3, placeholder="Brief description about this destination") }}
+                                {% if form.description.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.description.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                {{ form.image.label(class="form-label") }}
+                                <div class="input-group">
+                                    {{ form.image(class="form-control", onchange="previewImage(this)") }}
+                                </div>
+                                <small class="text-muted">Recommended size: 600x400px. JPG, PNG or SVG only.</small>
+                                {% if form.image.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.image.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                
+                                <div class="mt-2 d-none" id="imagePreviewContainer">
+                                    <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.display_order.label(class="form-label") }}
+                                {{ form.display_order(class="form-control", type="number", min=0) }}
+                                <small class="text-muted">Lower numbers appear first</small>
+                                {% if form.display_order.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.display_order.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3 form-check form-switch">
+                                {{ form.is_active(class="form-check-input") }}
+                                {{ form.is_active.label(class="form-check-label") }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end mt-3">
+                        <a href="{{ url_for('admin.admin_destinations') }}" class="btn btn-secondary me-2">Cancel</a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  function previewImage(input) {
+    var previewContainer = document.getElementById('imagePreviewContainer');
+    var preview = document.getElementById('imagePreview');
+    
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        previewContainer.classList.remove('d-none');
+      }
+      
+      reader.readAsDataURL(input.files[0]);
+    } else {
+      preview.src = '';
+      previewContainer.classList.add('d-none');
+    }
+  }
+</script>
+{% endblock %}

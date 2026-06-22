@@ -1,0 +1,492 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Admin Dashboard - Tour Package Management{% endblock %}
+
+{% block header_title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <style>
+        /* Modern Animation Styles */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .admin-stat-card {
+            animation: fadeInUp 0.5s ease-out forwards;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #5e72e4, #825ee4);
+            background-size: 200% 200%;
+            animation: fadeInUp 0.5s ease-out forwards, gradientBG 15s ease infinite;
+            border: none;
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .admin-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(94, 114, 228, 0.3);
+        }
+        
+        .admin-stat-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-stat-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .admin-stat-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .admin-stat-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .admin-stat-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .admin-recent {
+            animation: fadeInUp 0.6s ease-out forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+        }
+        
+        .quick-action-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .quick-action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #a3bded 0%, #6991c7 100%);
+            z-index: -1;
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        
+        .quick-action-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(105, 145, 199, 0.2);
+            color: white;
+        }
+        
+        .quick-action-card:hover::before {
+            opacity: 1;
+        }
+        
+        .quick-action-card:hover .quick-action-icon {
+            color: white;
+            transform: rotateY(360deg);
+        }
+        
+        .quick-action-icon {
+            font-size: 2.5rem;
+            color: #6991c7;
+            margin-bottom: 1rem;
+            transition: all 0.7s ease;
+            display: inline-block;
+        }
+        
+        .quick-action-card:nth-child(1):hover::before {
+            background: linear-gradient(135deg, #a3bded 0%, #6991c7 100%);
+        }
+        
+        .quick-action-card:nth-child(2):hover::before {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .quick-action-card:nth-child(3):hover::before {
+            background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
+        }
+        
+        .quick-action-card:nth-child(4):hover::before {
+            background: linear-gradient(135deg, #c3cfe2 0%, #c4e0e5 100%);
+        }
+        
+        .quick-action-card:nth-child(5):hover::before {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        }
+        
+        .quick-action-card:nth-child(6):hover::before {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        }
+        
+        .quick-action-title {
+            margin: 0;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+    </style>
+    
+    <!-- Admin Stats -->
+    <div class="admin-stats">
+        <div class="admin-stat-card">
+            <div class="admin-stat-header">
+                <div class="admin-stat-title" style="color: #ffffff; font-weight: bold; font-size: 1.1rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">Total Packages</div>
+                <div class="admin-stat-icon">
+                    <i class="fas fa-suitcase"></i>
+                </div>
+            </div>
+            <div class="admin-stat-value" style="color: #ffffff; font-weight: bold; font-size: 2rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">{{ total_packages }}</div>
+            <div class="admin-stat-trend positive" style="color: #ffffff; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">
+                <i class="fas fa-arrow-up"></i> 12% from last month
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-header">
+                <div class="admin-stat-title" style="color: #ffffff; font-weight: bold; font-size: 1.1rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">Total Users</div>
+                <div class="admin-stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+            <div class="admin-stat-value" style="color: #ffffff; font-weight: bold; font-size: 2rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">{{ total_users }}</div>
+            <div class="admin-stat-trend positive" style="color: #ffffff; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">
+                <i class="fas fa-arrow-up"></i> 8% from last month
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-header">
+                <div class="admin-stat-title" style="color: #ffffff; font-weight: bold; font-size: 1.1rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">Total Bookings</div>
+                <div class="admin-stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+            </div>
+            <div class="admin-stat-value" style="color: #ffffff; font-weight: bold; font-size: 2rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">{{ total_bookings }}</div>
+            <div class="admin-stat-trend positive" style="color: #ffffff; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">
+                <i class="fas fa-arrow-up"></i> 15% from last month
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-header">
+                <div class="admin-stat-title" style="color: #ffffff; font-weight: bold; font-size: 1.1rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">Total Revenue</div>
+                <div class="admin-stat-icon">
+                    <i class="fas fa-rupee-sign"></i>
+                </div>
+            </div>
+            <div class="admin-stat-value" style="color: #ffffff; font-weight: bold; font-size: 2rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">₹{{ total_revenue|int }}</div>
+            <div class="admin-stat-trend positive" style="color: #ffffff; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">
+                <i class="fas fa-arrow-up"></i> 20% from last month
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="admin-recent">
+        <div class="admin-recent-header">
+            <div class="admin-recent-title">Recent Bookings</div>
+            <a href="{{ url_for('admin.admin_bookings') }}" class="admin-recent-all">View All</a>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Package</th>
+                        <th>Date</th>
+                        <th>Travelers</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if recent_bookings %}
+                        {% for booking in recent_bookings %}
+                            <tr>
+                                <td>{{ booking.id }}</td>
+                                <td>{{ booking.user.username }}</td>
+                                <td>{{ booking.package.name }}</td>
+                                <td>{{ booking.travel_date.strftime('%d %b, %Y') }}</td>
+                                <td>{{ booking.num_travelers }}</td>
+                                <td>₹{{ booking.total_price|int }}</td>
+                                <td>
+                                    <span class="status status-{{ booking.status.lower() }}">
+                                        {{ booking.status }}
+                                    </span>
+                                </td>
+                                <td class="actions">
+                                    <form method="POST" action="{{ url_for('admin.update_booking', booking_id=booking.id) }}" style="display: inline;">
+                                        <select name="status" class="status-dropdown" style="padding: 0.25rem; border-radius: 4px; border: 1px solid #e9ecef;">
+                                            <option value="Pending" {% if booking.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                            <option value="Confirmed" {% if booking.status == 'Confirmed' %}selected{% endif %}>Confirmed</option>
+                                            <option value="Cancelled" {% if booking.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                                            <option value="Completed" {% if booking.status == 'Completed' %}selected{% endif %}>Completed</option>
+                                        </select>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 2rem;">No recent bookings found.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Dashboard Charts -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+        <div class="admin-recent">
+            <div class="admin-recent-header">
+                <div class="admin-recent-title">Booking Statistics</div>
+            </div>
+            <div style="height: 300px;">
+                <canvas id="bookingsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="admin-recent">
+            <div class="admin-recent-header">
+                <div class="admin-recent-title">Revenue Analysis</div>
+            </div>
+            <div style="height: 300px;">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="admin-recent" style="margin-top: 2rem;">
+        <div class="admin-recent-header">
+            <div class="admin-recent-title">Quick Actions</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; padding: 1rem;">
+            <a href="{{ url_for('admin.admin_destinations') }}" style="text-decoration: none; color: inherit;">
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="quick-action-title">Manage Destinations</h3>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin.admin_home_background') }}" style="text-decoration: none; color: inherit;">
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3 class="quick-action-title">Manage Backgrounds</h3>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin.add_package') }}" style="text-decoration: none; color: inherit;">
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <h3 class="quick-action-title">Add New Package</h3>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin.admin_bookings') }}" style="text-decoration: none; color: inherit;">
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3 class="quick-action-title">Manage Bookings</h3>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin.admin_users') }}" style="text-decoration: none; color: inherit;">
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <h3 class="quick-action-title">Manage Users</h3>
+                </div>
+            </a>
+
+            <a href="{{ url_for('admin.admin_profile') }}" style="text-decoration: none; color: inherit;">
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3 class="quick-action-title">System Settings</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Wait for DOM content to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get canvas elements
+            const bookingsChartCtx = document.getElementById('bookingsChart').getContext('2d');
+            const revenueChartCtx = document.getElementById('revenueChart').getContext('2d');
+            
+            // Booking Statistics Chart
+            const bookingsChart = new Chart(bookingsChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: {{ booking_dates|tojson }},
+                    datasets: [{
+                        label: 'Number of Bookings',
+                        data: {{ booking_counts|tojson }},
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.5)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+            
+            // Revenue Analysis Chart
+            const revenueChart = new Chart(revenueChartCtx, {
+                type: 'line',
+                data: {
+                    labels: {{ revenue_dates|tojson }},
+                    datasets: [{
+                        label: 'Revenue (₹)',
+                        data: {{ revenue_amounts|tojson }},
+                        fill: true,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+            
+            // Add animation to status dropdown
+            document.querySelectorAll('.status-dropdown').forEach(dropdown => {
+                dropdown.addEventListener('change', function() {
+                    this.closest('form').submit();
+                });
+                
+                dropdown.addEventListener('focus', function() {
+                    this.style.boxShadow = '0 0 0 3px rgba(0, 102, 204, 0.25)';
+                    this.style.borderColor = '#0066cc';
+                });
+                
+                dropdown.addEventListener('blur', function() {
+                    this.style.boxShadow = 'none';
+                    this.style.borderColor = '#e9ecef';
+                });
+            });
+        });
+    </script>
+{% endblock %}

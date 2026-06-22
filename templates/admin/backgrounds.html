@@ -1,0 +1,88 @@
+
+{% extends 'admin/base.html' %}
+
+{% block title %}Manage Backgrounds - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-content">
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">Homepage Backgrounds</h1>
+                <p class="text-muted mb-0">Manage background images for the homepage</p>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBackgroundModal">
+                <i class="fas fa-plus"></i> Add Background
+            </button>
+        </div>
+
+        <div class="row g-4">
+            {% if backgrounds %}
+                {% for bg in backgrounds %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100">
+                            <img src="{{ url_for('static', filename=bg.image_path) }}" 
+                                 class="card-img-top" 
+                                 alt="Background"
+                                 style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5 class="card-title">Background #{{ loop.index }}</h5>
+                                        <p class="card-text text-muted">
+                                            Added on {{ bg.created_at.strftime('%B %d, %Y') }}
+                                        </p>
+                                    </div>
+                                    <form action="{{ url_for('delete_background', background_id=bg.id) }}" 
+                                          method="POST" 
+                                          class="d-inline">
+                                        <button type="submit" 
+                                                class="btn btn-sm btn-outline-danger" 
+                                                onclick="return confirm('Delete this background?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-center py-5">
+                            <i class="fas fa-images fa-3x text-muted mb-3"></i>
+                            <h5>No Backgrounds Found</h5>
+                            <p class="text-muted mb-0">Add your first background image.</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Add Background Modal -->
+<div class="modal fade" id="addBackgroundModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('add_background') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Background</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="background" class="form-label">Choose Image</label>
+                        <input type="file" class="form-control" id="background" name="background" accept="image/*" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
