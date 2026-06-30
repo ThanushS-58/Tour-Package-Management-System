@@ -1,4 +1,4 @@
-# 🌍 TourEase – Tour Package Management System.
+# 🌍 TourEase – Tour Package -Management System.
 
 > A modern full-stack travel management platform designed to simplify tour discovery, booking management, customer engagement, and administrative operations through a centralized digital ecosystem.
 
