@@ -10,4 +10,4 @@ content = content.replace('@app.errorhandler', '@main_bp.errorhandler')
 with open('routes.py', 'w') as file:
     file.write(content)
     
-print("Updated all route decorators in routes.py")
+print("Updated all route decorators in routes.py ")

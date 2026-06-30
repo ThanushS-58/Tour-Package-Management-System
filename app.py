@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from flask_login import LoginManager
 
-# Configure logging
+# Configure logging jiik
 logging.basicConfig(level=logging.DEBUG)
 
 # Create base class for SQLAlchemy models
